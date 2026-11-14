@@ -1,0 +1,10 @@
+{
+  "description": "Explore pinturas famosas with personalized, explainable recommendations based on your ratings and art preferences. Discover works matched to your taste and refine your gallery profile.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
