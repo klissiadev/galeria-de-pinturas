@@ -1,3 +1,5 @@
+import data from "./data/mockData.json";
+
 export type Painting = {
   id: string;
   title: string;
@@ -27,9 +29,12 @@ export type MatchedFeature = {
   origin: FeatureOrigin;
 };
 export type PreferenceProfile = {
-  selectionWeights: Record<string, number>;
-  ratingWeights: Record<string, number>;
-  ratings: Rating[];
+  weights: Record<string, number>;
+  categoryWeights: Record<string, number>;
+  historyWeights: Record<string, number>;
+  history: Rating[];
+  categoryFactor: number;
+  historyFactor: number;
 };
 export type Recommendation = {
   paintingId: string;
@@ -38,6 +43,15 @@ export type Recommendation = {
   mostSimilarHistoryItemId?: string;
   similarityToHistoryItem?: number;
 };
+
+/**
+ * Equilibra categorias escolhidas e histórico quando ambos existem.
+ * 0 usa apenas o histórico; 1 usa apenas as categorias.
+ */
+export const PROFILE_ALPHA = 0.5;
+
+const paintings = data.paintings as Painting[];
+const paintingMap = new Map(paintings.map((painting) => [painting.id, painting]));
 
 const categoryLabels: Record<CategoryGroup, string> = {
   styles: "Estilo",
@@ -68,76 +82,79 @@ const featureType = (name: string): FeatureType => {
 const vectorNorm = (values: number[]) =>
   Math.sqrt(values.reduce((total, value) => total + value * value, 0));
 
-const combinedWeights = (profile: PreferenceProfile) => {
-  const combined: Record<string, number> = { ...profile.selectionWeights };
-  Object.entries(profile.ratingWeights).forEach(([feature, weight]) => {
-    combined[feature] = (combined[feature] ?? 0) + weight;
-  });
-  return combined;
-};
-
 /**
- * Recebe as categorias escolhidas no cold start e devolve um perfil vetorial
- * inicial, preservando os pesos 1 ("Gosto") e 2 ("Gosto muito").
+ * Recebe histórico, categorias e alpha e devolve o vetor do perfil.
+ * O histórico é a média dos atributos ponderados pelas notas; as categorias
+ * entram com seus pesos 1/2. Se uma das partes estiver vazia, a outra vale 100%.
  */
-export function buildInitialProfile(selectedCategories: SelectedCategories): PreferenceProfile {
-  const selectionWeights: Record<string, number> = {};
+export function buildProfile(
+  history: Rating[],
+  selectedCategories: SelectedCategories,
+  alpha: number,
+): PreferenceProfile {
+  const categoryWeights: Record<string, number> = {};
   (Object.keys(categoryLabels) as CategoryGroup[]).forEach((group) => {
     selectedCategories[group].forEach(({ value, weight }) => {
-      selectionWeights[`${categoryLabels[group]}: ${value}`] = weight;
+      categoryWeights[`${categoryLabels[group]}: ${value}`] = weight / 2;
     });
   });
-  return { selectionWeights, ratingWeights: {}, ratings: [] };
-}
 
-/**
- * Recebe um perfil inicial e avaliações por estrelas, e devolve um novo perfil:
- * notas altas somam e notas baixas subtraem os atributos das obras avaliadas.
- */
-export function updateProfileWithRatings(
-  profile: PreferenceProfile,
-  ratings: Rating[],
-  paintings: Painting[],
-): PreferenceProfile {
-  const ratingWeights: Record<string, number> = {};
-  const ratingImpact: Record<number, number> = {
-    1: -1.2,
-    2: -0.65,
-    3: 0.2,
-    4: 0.8,
-    5: 1.35,
+  const historyWeights: Record<string, number> = {};
+  const noteWeight: Record<number, number> = {
+    1: -1,
+    2: -0.5,
+    3: 0,
+    4: 0.5,
+    5: 1,
   };
-  ratings.forEach(({ paintingId, rating }) => {
-    const painting = paintings.find((item) => item.id === paintingId);
+  history.forEach(({ paintingId, rating }) => {
+    const painting = paintingMap.get(paintingId);
     if (!painting) return;
     dimensions(painting).forEach((feature) => {
-      ratingWeights[feature] = (ratingWeights[feature] ?? 0) + ratingImpact[rating];
+      historyWeights[feature] =
+        (historyWeights[feature] ?? 0) + noteWeight[rating] / history.length;
     });
   });
-  return { ...profile, ratingWeights, ratings: [...ratings] };
+
+  const hasCategories = Object.keys(categoryWeights).length > 0;
+  const hasHistory = history.length > 0;
+  const categoryFactor = hasHistory && hasCategories ? alpha : hasCategories ? 1 : 0;
+  const historyFactor = hasHistory && hasCategories ? 1 - alpha : hasHistory ? 1 : 0;
+  const weights: Record<string, number> = {};
+  new Set([...Object.keys(categoryWeights), ...Object.keys(historyWeights)]).forEach((feature) => {
+    weights[feature] =
+      (categoryWeights[feature] ?? 0) * categoryFactor +
+      (historyWeights[feature] ?? 0) * historyFactor;
+  });
+
+  return {
+    weights,
+    categoryWeights,
+    historyWeights,
+    history: [...history],
+    categoryFactor,
+    historyFactor,
+  };
 }
 
 /**
- * Recebe um perfil vetorial e N, calcula cosseno contra cada obra não avaliada
- * e devolve até N recomendações ordenadas, com contribuições e suas origens.
+ * Recebe perfil, N e IDs excluídos e devolve recomendações por cosseno.
+ * As contribuições são calculadas por origem e obras avaliadas nunca entram.
  */
 export function recommend(
   profile: PreferenceProfile,
   n: number,
-  paintings: Painting[],
+  excludeIds: Iterable<string>,
   diversify = false,
 ): Recommendation[] {
-  const weights = combinedWeights(profile);
-  const profileNorm = vectorNorm(Object.values(weights));
-  const seen = new Set(profile.ratings.map((rating) => rating.paintingId));
-  const likedHistory = profile.ratings.filter((rating) => rating.rating >= 3);
-
+  const excluded = new Set(excludeIds);
+  const profileNorm = vectorNorm(Object.values(profile.weights));
   const candidates = paintings
-    .filter((painting) => !seen.has(painting.id))
+    .filter((painting) => !excluded.has(painting.id))
     .map((painting) => {
       const features = dimensions(painting);
       const artworkNorm = Math.sqrt(features.length);
-      const dot = features.reduce((total, feature) => total + (weights[feature] ?? 0), 0);
+      const dot = features.reduce((total, feature) => total + (profile.weights[feature] ?? 0), 0);
       const score =
         profileNorm && artworkNorm
           ? Math.max(0, Math.min(1, dot / (profileNorm * artworkNorm)))
@@ -145,14 +162,14 @@ export function recommend(
 
       const matchedFeatures: MatchedFeature[] = [];
       features.forEach((name) => {
-        const selectionValue = profile.selectionWeights[name] ?? 0;
-        const historyValue = profile.ratingWeights[name] ?? 0;
-        if (selectionValue > 0) {
+        const categoryValue = (profile.categoryWeights[name] ?? 0) * profile.categoryFactor;
+        const historyValue = (profile.historyWeights[name] ?? 0) * profile.historyFactor;
+        if (categoryValue > 0) {
           matchedFeatures.push({
             name,
             type: featureType(name),
             origin: "selection",
-            contribution: Number((selectionValue / (profileNorm * artworkNorm)).toFixed(2)),
+            contribution: Number((categoryValue / (profileNorm * artworkNorm)).toFixed(2)),
           });
         }
         if (historyValue > 0) {
@@ -166,9 +183,9 @@ export function recommend(
       });
       matchedFeatures.sort((a, b) => b.contribution - a.contribution);
 
-      const closest = likedHistory
+      const closest = profile.history
         .map((rating) => {
-          const historyPainting = paintings.find((item) => item.id === rating.paintingId);
+          const historyPainting = paintingMap.get(rating.paintingId);
           if (!historyPainting) return null;
           const historyFeatures = dimensions(historyPainting);
           const overlap = features.filter((feature) => historyFeatures.includes(feature)).length;
@@ -186,52 +203,34 @@ export function recommend(
         matchedFeatures: matchedFeatures.slice(0, 4),
         mostSimilarHistoryItemId: closest?.paintingId,
         similarityToHistoryItem: closest ? Number(closest.similarity.toFixed(2)) : undefined,
-        style: painting.broadStyle || painting.style || painting.broadTheme,
+        diversityGroup: painting.broadStyle || painting.style || painting.broadTheme,
       };
     })
     .sort((a, b) => b.score - a.score);
 
   if (!diversify) {
-    return candidates.slice(0, n).map(({ style: _, ...recommendation }) => recommendation);
+    return candidates.slice(0, n).map(({ diversityGroup: _, ...recommendation }) => recommendation);
   }
 
   const ordered: typeof candidates = [];
   const pool = [...candidates];
   while (pool.length && ordered.length < n) {
     const nextIndex = pool.findIndex(
-      (candidate) => !ordered.slice(-2).some((picked) => picked.style === candidate.style),
+      (candidate) =>
+        !ordered.slice(-2).some((picked) => picked.diversityGroup === candidate.diversityGroup),
     );
     ordered.push(pool.splice(nextIndex < 0 ? 0 : nextIndex, 1)[0]);
   }
-  return ordered.map(({ style: _, ...recommendation }) => recommendation);
+  return ordered.map(({ diversityGroup: _, ...recommendation }) => recommendation);
 }
 
 export function buildTasteProfile(profile: PreferenceProfile) {
-  const positive = Object.entries(combinedWeights(profile))
+  const positive = Object.entries(profile.weights)
     .filter(([, weight]) => weight > 0)
     .sort((a, b) => b[1] - a[1]);
   const max = Math.max(positive[0]?.[1] ?? 1, 1);
   return positive.slice(0, 5).map(([feature, weight]) => {
     const [type, ...value] = feature.split(": ");
-    return {
-      name: value.join(": "),
-      type,
-      weight: weight / max,
-    };
+    return { name: value.join(": "), type, weight: weight / max };
   });
-}
-
-export function recommendFromRatings(
-  paintings: Painting[],
-  ratings: Rating[],
-  diversify = false,
-): Recommendation[] {
-  const empty: SelectedCategories = {
-    styles: [],
-    themes: [],
-    schools: [],
-    artists: [],
-  };
-  const profile = updateProfileWithRatings(buildInitialProfile(empty), ratings, paintings);
-  return recommend(profile, paintings.length, paintings, diversify);
 }

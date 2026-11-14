@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import data from "./data/mockData.json";
 import {
-  buildInitialProfile,
+  PROFILE_ALPHA,
+  buildProfile,
   buildTasteProfile,
   recommend,
-  recommendFromRatings,
-  updateProfileWithRatings,
   type CategoryGroup,
   type Painting,
   type Rating,
@@ -77,8 +76,12 @@ function Stars({
             key={star}
             type="button"
             className={star <= value ? "filled" : ""}
-            aria-label={`Avaliar com ${star} ${star === 1 ? "estrela" : "estrelas"}`}
-            onClick={() => onChange(star)}
+            aria-label={
+              star === value
+                ? "Remover esta avaliação"
+                : `Avaliar com ${star} ${star === 1 ? "estrela" : "estrelas"}`
+            }
+            onClick={() => onChange(star === value ? 0 : star)}
           >
             ★
           </button>
@@ -88,6 +91,28 @@ function Stars({
           </span>
         ),
       )}
+    </div>
+  );
+}
+
+function RatingControls({
+  value,
+  onRate,
+  label = "Avalie esta recomendação",
+}: {
+  value: number;
+  onRate: (rating: number) => void;
+  label?: string;
+}) {
+  return (
+    <div className="recommendation-rating">
+      <div>
+        <small>{label}</small>
+        <Stars value={value} onChange={onRate} />
+      </div>
+      <button type="button" onClick={() => onRate(1)}>
+        Não me interessa
+      </button>
     </div>
   );
 }
@@ -150,9 +175,13 @@ function TasteProfile({
 function DetailsModal({
   recommendation,
   onClose,
+  rating,
+  onRate,
 }: {
   recommendation: Recommendation;
   onClose: () => void;
+  rating: number;
+  onRate: (rating: number) => void;
 }) {
   const painting = paintingMap.get(recommendation.paintingId)!;
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -220,6 +249,7 @@ function DetailsModal({
               <dd>{recommendation.score.toFixed(2).replace(".", ",")}</dd>
             </div>
           </dl>
+          <RatingControls value={rating} onRate={onRate} />
           <h3>Decomposição da explicação</h3>
           <div className="decomposition">
             {recommendation.matchedFeatures.map((feature) => (
@@ -247,12 +277,18 @@ function RecommendationCard({
   recommendation,
   rank,
   onDetails,
+  rating,
+  onRate,
 }: {
   recommendation: Recommendation;
   rank: number;
   onDetails: () => void;
+  rating: number;
+  onRate: (rating: number) => void;
 }) {
   const painting = paintingMap.get(recommendation.paintingId)!;
+  const [expanded, setExpanded] = useState(false);
+  const disclosureId = `recommendation-details-${painting.id}`;
   const similar = recommendation.mostSimilarHistoryItemId
     ? paintingMap.get(recommendation.mostSimilarHistoryItemId)
     : undefined;
@@ -282,44 +318,66 @@ function RecommendationCard({
           <span>{painting.school}</span>
         </div>
         <AttributeChips values={[painting.broadTheme, painting.theme, ...painting.keywords]} />
-        <div className="score-row">
-          <div>
-            <span>Similaridade do cosseno</span>
-            <strong>{recommendation.score.toFixed(2).replace(".", ",")}</strong>
-          </div>
-          <div className="score-track">
-            <div style={{ width: `${recommendation.score * 100}%` }} />
-          </div>
+        <RatingControls value={rating} onRate={onRate} />
+        <div className="recommendation-toggle-row">
+          <button
+            type="button"
+            className="recommendation-toggle"
+            aria-expanded={expanded}
+            aria-controls={disclosureId}
+            onClick={() => setExpanded((current) => !current)}
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true" className={expanded ? "expanded" : ""}>
+              <path d="m3 6 5 5 5-5" />
+            </svg>
+            {expanded ? "Ocultar" : "Por que recomendamos?"}
+          </button>
+          <span>Similaridade {recommendation.score.toFixed(2).replace(".", ",")}</span>
         </div>
-        <div className="explanation">
-          <div className="eyebrow">Por que recomendamos?</div>
-          <div className="chips">
-            {recommendation.matchedFeatures.map((feature) => (
-              <span
-                key={`${feature.origin}-${feature.name}`}
-                className={`explanation-chip ${feature.origin}`}
-              >
-                <span className="source-icon" aria-hidden="true">
-                  {feature.origin === "selection" ? "✓" : "◷"}
-                </span>
-                <small>{featureTypeLabels[feature.type]}</small>
-                {feature.origin === "selection"
-                  ? `Você escolheu: ${feature.name.replace(/^[^:]+: /, "")}`
-                  : `Das obras que você avaliou: ${feature.name.replace(/^[^:]+: /, "")}`}
-                <strong>+{feature.contribution.toFixed(2).replace(".", ",")}</strong>
-              </span>
-            ))}
-          </div>
-          {similar && (
-            <div className="similar-work">
-              <ArtImage painting={similar} thumbnail />
-              <div>
-                <small>Mais parecida com</small>
-                <strong>{similar.title}</strong>
-              </div>
-              <span>{recommendation.similarityToHistoryItem?.toFixed(2).replace(".", ",")}</span>
+        <div
+          id={disclosureId}
+          className={`recommendation-disclosure ${expanded ? "expanded" : ""}`}
+          aria-hidden={!expanded}
+        >
+          <div className="score-row">
+            <div>
+              <span>Similaridade do cosseno</span>
+              <strong>{recommendation.score.toFixed(2).replace(".", ",")}</strong>
             </div>
-          )}
+            <div className="score-track">
+              <div style={{ width: `${recommendation.score * 100}%` }} />
+            </div>
+          </div>
+          <div className="explanation">
+            <div className="eyebrow">Por que recomendamos?</div>
+            <div className="chips">
+              {recommendation.matchedFeatures.map((feature) => (
+                <span
+                  key={`${feature.origin}-${feature.name}`}
+                  className={`explanation-chip ${feature.origin}`}
+                >
+                  <span className="source-icon" aria-hidden="true">
+                    {feature.origin === "selection" ? "✓" : "◷"}
+                  </span>
+                  <small>{featureTypeLabels[feature.type]}</small>
+                  {feature.origin === "selection"
+                    ? `Você escolheu: ${feature.name.replace(/^[^:]+: /, "")}`
+                    : `Das obras que você avaliou: ${feature.name.replace(/^[^:]+: /, "")}`}
+                  <strong>+{feature.contribution.toFixed(2).replace(".", ",")}</strong>
+                </span>
+              ))}
+            </div>
+            {similar && (
+              <div className="similar-work">
+                <ArtImage painting={similar} thumbnail />
+                <div>
+                  <small>Mais parecida com</small>
+                  <strong>{similar.title}</strong>
+                </div>
+                <span>{recommendation.similarityToHistoryItem?.toFixed(2).replace(".", ",")}</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </article>
@@ -336,15 +394,19 @@ const emptyCategories = (): SelectedCategories => ({
 function CategoryOnboarding({
   selected,
   onChange,
-  onContinue,
-  onSkip,
-  editing,
+  variant,
+  profileName = "",
+  onNameChange,
+  onSave,
+  onCancel,
 }: {
   selected: SelectedCategories;
   onChange: (value: SelectedCategories) => void;
-  onContinue: () => void;
-  onSkip: () => void;
-  editing: boolean;
+  variant: "create" | "adjust";
+  profileName?: string;
+  onNameChange?: (value: string) => void;
+  onSave: () => void;
+  onCancel?: () => void;
 }) {
   const [artistQuery, setArtistQuery] = useState("");
   const [expandedGroups, setExpandedGroups] = useState<CategoryGroup[]>([]);
@@ -372,19 +434,25 @@ function CategoryOnboarding({
 
   return (
     <div className="onboarding" aria-labelledby="onboarding-title">
-      <div className="step-indicator">
-        <span>Etapa 1 de 2</span>
-        <div>
-          <i className="active" />
-          <i />
-        </div>
-      </div>
       <div className="eyebrow">Comece pelo que desperta seu olhar</div>
-      <h2 id="onboarding-title">O que você gosta de ver?</h2>
+      <h2 id="onboarding-title">
+        {variant === "create" ? "Crie seu perfil" : "Ajuste seus interesses"}
+      </h2>
       <p>
         Escolha pelo menos duas categorias. Toque novamente para marcar “Gosto muito” e uma terceira
         vez para desmarcar.
       </p>
+      {variant === "create" && (
+        <label className="profile-name">
+          <span>Nome do perfil</span>
+          <input
+            value={profileName}
+            onChange={(event) => onNameChange?.(event.target.value)}
+            placeholder="Ex.: Meu perfil de arte"
+            maxLength={40}
+          />
+        </label>
+      )}
 
       {(Object.keys(groupNames) as CategoryGroup[]).map((group) => (
         <fieldset className="category-group" key={group}>
@@ -480,14 +548,15 @@ function CategoryOnboarding({
         <button
           type="button"
           className="primary-button"
-          disabled={selectedCount < 2}
-          onClick={onContinue}
+          disabled={selectedCount < 2 || (variant === "create" && !profileName.trim())}
+          onClick={onSave}
         >
-          {editing ? "Salvar e recalcular" : "Continuar"} <span>→</span>
+          {variant === "create" ? "Salvar perfil e ver recomendações" : "Salvar interesses"}{" "}
+          <span>→</span>
         </button>
-        {!editing && (
-          <button type="button" className="skip-button" onClick={onSkip}>
-            Pular e avaliar obras direto
+        {onCancel && (
+          <button type="button" className="skip-button" onClick={onCancel}>
+            Cancelar
           </button>
         )}
       </div>
@@ -495,95 +564,228 @@ function CategoryOnboarding({
   );
 }
 
+type CreatedProfile = {
+  id: string;
+  name: string;
+  selectedCategories: SelectedCategories;
+  createdByUser: true;
+};
+
+type PersistedGalleryState = {
+  createdProfiles: CreatedProfile[];
+  ratingsByUser: Record<string, Rating[]>;
+  categoryOverrides: Record<string, SelectedCategories>;
+};
+
+const STORAGE_KEY = "galeria-sugerida:profiles-v1";
+
+function readPersistedState(): PersistedGalleryState {
+  const fallback: PersistedGalleryState = {
+    createdProfiles: [],
+    ratingsByUser: {},
+    categoryOverrides: {},
+  };
+  if (typeof window === "undefined") return fallback;
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored ? { ...fallback, ...JSON.parse(stored) } : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function App() {
+  const initialPersisted = useRef(readPersistedState()).current;
   const [mode, setMode] = useState<Mode>("existing");
   const [userId, setUserId] = useState("u01");
   const [count, setCount] = useState<5 | 10>(5);
   const [diversify, setDiversify] = useState(false);
-  const [customRatings, setCustomRatings] = useState<Rating[]>([]);
+  const [createdProfiles, setCreatedProfiles] = useState<CreatedProfile[]>(
+    initialPersisted.createdProfiles,
+  );
+  const [categoryOverrides, setCategoryOverrides] = useState<Record<string, SelectedCategories>>(
+    initialPersisted.categoryOverrides,
+  );
+  const [ratingsByUser, setRatingsByUser] = useState<Record<string, Rating[]>>(() => ({
+    ...Object.fromEntries(data.users.map((user) => [user.id, [...user.ratings]])),
+    ...initialPersisted.ratingsByUser,
+  }));
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>(emptyCategories);
-  const [onboardingStep, setOnboardingStep] = useState<1 | 2>(1);
-  const [editingCategories, setEditingCategories] = useState(false);
-  const [customResults, setCustomResults] = useState<Recommendation[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [profileName, setProfileName] = useState("");
+  const [adjustingInterests, setAdjustingInterests] = useState(false);
+  const [interestDraft, setInterestDraft] = useState<SelectedCategories>(emptyCategories);
+  const [loading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Recommendation | null>(null);
+  const [historyNotice, setHistoryNotice] = useState<{
+    paintingId: string;
+    previousRating?: number;
+    targetUserId: string;
+    message: string;
+  } | null>(null);
 
-  const user = data.users.find((item) => item.id === userId)!;
+  const baseUsers = data.users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    selectedCategories: (user as typeof user & { selectedCategories?: SelectedCategories })
+      .selectedCategories,
+    createdByUser: false as const,
+  }));
+  const allUsers = [...baseUsers, ...createdProfiles];
+  const user = allUsers.find((item) => item.id === userId) ?? allUsers[0];
+  const isCreatedProfile = user.createdByUser;
+  const existingRatings = ratingsByUser[userId] ?? [];
+  const userCategories = isCreatedProfile
+    ? user.selectedCategories
+    : (categoryOverrides[userId] ?? user.selectedCategories ?? emptyCategories());
+  const hasLocalOverride = !isCreatedProfile && Boolean(categoryOverrides[userId]);
   const existingProfile = useMemo(
-    () => updateProfileWithRatings(buildInitialProfile(emptyCategories()), user.ratings, paintings),
-    [user],
+    () => buildProfile(existingRatings, userCategories, PROFILE_ALPHA),
+    [existingRatings, userCategories],
   );
-  const customProfile = useMemo(
-    () =>
-      updateProfileWithRatings(buildInitialProfile(selectedCategories), customRatings, paintings),
-    [selectedCategories, customRatings],
+  const creationProfile = useMemo(
+    () => buildProfile([], selectedCategories, PROFILE_ALPHA),
+    [selectedCategories],
   );
-  const tasteProfile = buildTasteProfile(mode === "existing" ? existingProfile : customProfile);
+  const tasteProfile = buildTasteProfile(mode === "existing" ? existingProfile : creationProfile);
+  const currentRatings = existingRatings;
   const selectedCount = Object.values(selectedCategories).flat().length;
-  const prioritizedPaintings = useMemo(() => {
-    if (!selectedCount) return paintings.slice(0, 24);
-    const selectedValues = new Set(
-      Object.values(selectedCategories)
-        .flat()
-        .map((item) => item.value),
-    );
-    const matches = paintings.filter(
-      (painting) =>
-        selectedValues.has(painting.style) ||
-        selectedValues.has(painting.broadStyle) ||
-        selectedValues.has(painting.artist) ||
-        selectedValues.has(painting.school) ||
-        selectedValues.has(painting.broadTheme) ||
-        selectedValues.has(painting.theme),
-    );
-    const exploration = paintings.filter((painting) => !matches.includes(painting));
-    return [...matches.slice(0, 18), ...exploration.slice(0, 6)].slice(0, 24);
-  }, [selectedCategories, selectedCount]);
-  const existingRecommendations = data.recommendations[
-    userId as keyof typeof data.recommendations
-  ] as Recommendation[];
   const recommendations =
     mode === "existing"
-      ? diversify
-        ? recommendFromRatings(paintings, user.ratings, true)
-        : existingRecommendations
-      : customResults;
+      ? recommend(
+          existingProfile,
+          paintings.length,
+          existingRatings.map((rating) => rating.paintingId),
+          diversify,
+        )
+      : null;
 
-  const updateCustomRating = (paintingId: string, rating: number) => {
-    setCustomResults(null);
+  const updateRating = (paintingId: string, rating: number) => {
+    const previousRating = currentRatings.find((item) => item.paintingId === paintingId)?.rating;
+    const update = (ratings: Rating[]) =>
+      rating === 0
+        ? ratings.filter((item) => item.paintingId !== paintingId)
+        : [...ratings.filter((item) => item.paintingId !== paintingId), { paintingId, rating }];
+    setRatingsByUser((current) => ({
+      ...current,
+      [userId]: update(current[userId] ?? []),
+    }));
     setError(null);
-    setCustomRatings((current) => [
-      ...current.filter((item) => item.paintingId !== paintingId),
-      { paintingId, rating },
-    ]);
+    setHistoryNotice({
+      paintingId,
+      previousRating,
+      targetUserId: userId,
+      message:
+        rating === 0
+          ? "Avaliação removida"
+          : previousRating
+            ? "Avaliação atualizada"
+            : "Adicionada ao histórico",
+    });
   };
 
-  const generate = () => {
-    if (selectedCount < 2 && customRatings.length < 3) return;
-    setLoading(true);
-    setError(null);
-    setCustomResults(null);
-    window.setTimeout(() => {
-      try {
-        const nextResults = recommend(customProfile, paintings.length, paintings, diversify);
-        if (!nextResults.length) throw new Error("Nenhuma recomendação disponível");
-        setCustomResults(nextResults);
-      } catch {
-        setError(
-          "Não foi possível gerar a curadoria agora. Revise suas avaliações e tente novamente.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    }, 750);
+  const undoHistoryChange = () => {
+    if (!historyNotice) return;
+    const restore = (ratings: Rating[]) => {
+      const withoutCurrent = ratings.filter((item) => item.paintingId !== historyNotice.paintingId);
+      return historyNotice.previousRating
+        ? [
+            ...withoutCurrent,
+            {
+              paintingId: historyNotice.paintingId,
+              rating: historyNotice.previousRating,
+            },
+          ]
+        : withoutCurrent;
+    };
+    setRatingsByUser((current) => ({
+      ...current,
+      [historyNotice.targetUserId]: restore(current[historyNotice.targetUserId] ?? []),
+    }));
+    setHistoryNotice(null);
+  };
+
+  const createProfile = () => {
+    if (!profileName.trim() || selectedCount < 2) return;
+    const id = `local-${Date.now()}`;
+    const profile: CreatedProfile = {
+      id,
+      name: profileName.trim(),
+      selectedCategories,
+      createdByUser: true,
+    };
+    setCreatedProfiles((current) => [...current, profile]);
+    setRatingsByUser((current) => ({ ...current, [id]: [] }));
+    setUserId(id);
+    setMode("existing");
+    setProfileName("");
+    setSelectedCategories(emptyCategories());
+    setAdjustingInterests(false);
+    setSelected(null);
+  };
+
+  const saveInterests = () => {
+    if (Object.values(interestDraft).flat().length < 2) return;
+    if (isCreatedProfile) {
+      setCreatedProfiles((current) =>
+        current.map((profile) =>
+          profile.id === userId ? { ...profile, selectedCategories: interestDraft } : profile,
+        ),
+      );
+    } else {
+      setCategoryOverrides((current) => ({
+        ...current,
+        [userId]: interestDraft,
+      }));
+    }
+    setAdjustingInterests(false);
+  };
+
+  const restoreOriginalProfile = () => {
+    setCategoryOverrides((current) => {
+      const next = { ...current };
+      delete next[userId];
+      return next;
+    });
+    setAdjustingInterests(false);
+  };
+
+  const deleteCreatedProfile = () => {
+    if (
+      !isCreatedProfile ||
+      !window.confirm(`Excluir o perfil “${user.name}” e todo o seu histórico?`)
+    ) {
+      return;
+    }
+    setCreatedProfiles((current) => current.filter((profile) => profile.id !== userId));
+    setRatingsByUser((current) => {
+      const next = { ...current };
+      delete next[userId];
+      return next;
+    });
+    setUserId(data.users[0].id);
+    setSelected(null);
+    setHistoryNotice(null);
   };
 
   useEffect(() => {
-    if (mode === "custom" && customResults) {
-      setCustomResults(recommend(customProfile, paintings.length, paintings, diversify));
+    const stored: PersistedGalleryState = {
+      createdProfiles,
+      ratingsByUser,
+      categoryOverrides,
+    };
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+    } catch {
+      // The app remains usable in private mode or when browser storage is unavailable.
     }
-  }, [diversify]); // updates generated custom recommendations when MMR changes
+  }, [createdProfiles, ratingsByUser, categoryOverrides]);
+
+  useEffect(() => {
+    if (!historyNotice) return;
+    const timeout = window.setTimeout(() => setHistoryNotice(null), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [historyNotice]);
 
   return (
     <div className="app-shell">
@@ -606,6 +808,8 @@ function App() {
               onClick={() => {
                 setMode("existing");
                 setError(null);
+                setAdjustingInterests(false);
+                setSelected(null);
               }}
             >
               Usuário existente
@@ -616,9 +820,11 @@ function App() {
               onClick={() => {
                 setMode("custom");
                 setError(null);
+                setAdjustingInterests(false);
+                setSelected(null);
               }}
             >
-              Montar meu perfil
+              Criar perfil
             </button>
           </div>
           <label className="select-label">
@@ -660,136 +866,119 @@ function App() {
             <div className="eyebrow">
               {mode === "existing" ? "Base de referência" : "Curadoria pessoal"}
             </div>
-            <h1 id="profile-title">Perfil e histórico</h1>
+            <h1 id="profile-title">
+              {mode === "existing" ? "Perfil e histórico" : "Criar perfil"}
+            </h1>
           </div>
 
           {mode === "existing" ? (
             <>
               <label className="user-select">
                 <span>Selecionar perfil</span>
-                <select value={userId} onChange={(event) => setUserId(event.target.value)}>
-                  {data.users.map((item) => (
+                <select
+                  value={userId}
+                  onChange={(event) => {
+                    setUserId(event.target.value);
+                    setAdjustingInterests(false);
+                    setSelected(null);
+                  }}
+                >
+                  {allUsers.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.name}
+                      {item.createdByUser ? " — Criado por você" : ""}
                     </option>
                   ))}
                 </select>
               </label>
-              <div className="history-header">
-                <span>Histórico de avaliações</span>
-                <strong>{user.ratings.length} obras</strong>
+              <div className="profile-controls">
+                <div>
+                  {isCreatedProfile && <span className="local-badge">Criado por você</span>}
+                  {hasLocalOverride && (
+                    <span className="customized-badge">Perfil personalizado</span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInterestDraft(userCategories);
+                    setAdjustingInterests(true);
+                  }}
+                >
+                  Ajustar interesses
+                </button>
+                {hasLocalOverride && (
+                  <button type="button" onClick={restoreOriginalProfile}>
+                    Restaurar perfil original
+                  </button>
+                )}
+                {isCreatedProfile && (
+                  <button type="button" className="delete-profile" onClick={deleteCreatedProfile}>
+                    Excluir perfil
+                  </button>
+                )}
               </div>
-              <div className="history-list">
-                {user.ratings.map((rating) => {
-                  const painting = paintingMap.get(rating.paintingId)!;
-                  return (
-                    <div
-                      className={`history-item ${rating.rating <= 2 ? "disliked" : ""}`}
-                      key={rating.paintingId}
-                    >
-                      <ArtImage painting={painting} thumbnail />
-                      <div>
-                        <strong>{painting.title}</strong>
-                        <span>{painting.artist}</span>
-                        <AttributeChips
-                          values={[painting.broadTheme, ...painting.keywords.slice(0, 1)]}
-                          compact
-                        />
-                        <Stars value={rating.rating} compact />
-                      </div>
-                      {rating.rating <= 2 && <small>Não gostou</small>}
-                    </div>
-                  );
-                })}
-              </div>
+              {adjustingInterests ? (
+                <CategoryOnboarding
+                  selected={interestDraft}
+                  onChange={setInterestDraft}
+                  variant="adjust"
+                  onSave={saveInterests}
+                  onCancel={() => setAdjustingInterests(false)}
+                />
+              ) : (
+                <>
+                  <div className="history-header">
+                    <span>Histórico de avaliações</span>
+                    <strong>{existingRatings.length} obras</strong>
+                  </div>
+                  <div className="history-list">
+                    {existingRatings.map((rating) => {
+                      const painting = paintingMap.get(rating.paintingId)!;
+                      return (
+                        <div
+                          className={`history-item ${rating.rating <= 2 ? "disliked" : ""}`}
+                          key={rating.paintingId}
+                        >
+                          <ArtImage painting={painting} thumbnail />
+                          <div>
+                            <strong>{painting.title}</strong>
+                            <span>{painting.artist}</span>
+                            <AttributeChips
+                              values={[painting.broadTheme, ...painting.keywords.slice(0, 1)]}
+                              compact
+                            />
+                            <Stars
+                              value={rating.rating}
+                              onChange={(value) => updateRating(rating.paintingId, value)}
+                              compact
+                            />
+                          </div>
+                          {rating.rating <= 2 && <small>Não gostou</small>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </>
-          ) : onboardingStep === 1 ? (
+          ) : (
             <CategoryOnboarding
               selected={selectedCategories}
               onChange={setSelectedCategories}
-              editing={editingCategories}
-              onContinue={() => {
-                setOnboardingStep(2);
-                if (editingCategories && customResults) generate();
-                setEditingCategories(false);
-              }}
-              onSkip={() => {
-                setSelectedCategories(emptyCategories());
-                setOnboardingStep(2);
-              }}
+              variant="create"
+              profileName={profileName}
+              onNameChange={setProfileName}
+              onSave={createProfile}
             />
-          ) : (
-            <>
-              <div className="step-indicator">
-                <span>Etapa 2 de 2 · opcional</span>
-                <div>
-                  <i className="active" />
-                  <i className="active" />
-                </div>
-              </div>
-              <div className="rating-step-heading">
-                <div className="eyebrow">Refine seu perfil</div>
-                <h2>Avalie algumas obras</h2>
-                <p className="intro">
-                  Priorizamos obras próximas às suas escolhas e incluímos novos caminhos para
-                  ampliar a descoberta.
-                </p>
-              </div>
-              <div className="rating-grid">
-                {prioritizedPaintings.map((painting) => {
-                  const rating =
-                    customRatings.find((item) => item.paintingId === painting.id)?.rating ?? 0;
-                  return (
-                    <div className="rating-item" key={painting.id}>
-                      <ArtImage painting={painting} thumbnail />
-                      <div>
-                        <strong>{painting.title}</strong>
-                        <span>{painting.artist}</span>
-                        <Stars
-                          value={rating}
-                          onChange={(value) => updateCustomRating(painting.id, value)}
-                          compact
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="rating-actions">
-                <div>
-                  <strong>{customRatings.length}</strong> obras avaliadas
-                  <span>
-                    {selectedCount >= 2 ? "avaliação opcional" : "mínimo 3 sem categorias"}
-                  </span>
-                </div>
-                <button
-                  className="clear-button"
-                  onClick={() => {
-                    setCustomRatings([]);
-                    setCustomResults(null);
-                    setError(null);
-                  }}
-                  disabled={!customRatings.length}
-                >
-                  Limpar
-                </button>
-                <button
-                  className="primary-button"
-                  onClick={generate}
-                  disabled={(selectedCount < 2 && customRatings.length < 3) || loading}
-                >
-                  Gerar recomendações <span>→</span>
-                </button>
-              </div>
-            </>
           )}
           <TasteProfile
             profile={tasteProfile}
             onEdit={
-              mode === "custom" && selectedCount > 0 && onboardingStep === 2
+              mode === "existing" && !adjustingInterests
                 ? () => {
-                    setEditingCategories(true);
-                    setOnboardingStep(1);
+                    setInterestDraft(userCategories);
+                    setAdjustingInterests(true);
                   }
                 : undefined
             }
@@ -827,18 +1016,25 @@ function App() {
               <div className="eyebrow">A curadoria foi interrompida</div>
               <h3>Algo saiu do esperado</h3>
               <p>{error}</p>
-              <button type="button" onClick={generate}>
-                Tentar novamente
+              <button type="button" onClick={() => setError(null)}>
+                Fechar aviso
               </button>
             </div>
           ) : recommendations ? (
             <div className="recommendation-list">
               {recommendations.slice(0, count).map((recommendation, index) => (
                 <RecommendationCard
-                  key={recommendation.paintingId}
+                  key={`${userId}-${count}-${diversify}-${existingRatings
+                    .map((rating) => `${rating.paintingId}:${rating.rating}`)
+                    .join(",")}-${recommendation.paintingId}`}
                   recommendation={recommendation}
                   rank={index + 1}
                   onDetails={() => setSelected(recommendation)}
+                  rating={
+                    currentRatings.find((item) => item.paintingId === recommendation.paintingId)
+                      ?.rating ?? 0
+                  }
+                  onRate={(rating) => updateRating(recommendation.paintingId, rating)}
                 />
               ))}
             </div>
@@ -852,15 +1048,33 @@ function App() {
               <div className="eyebrow">A galeria aguarda seu olhar</div>
               <h3>Suas recomendações aparecerão aqui</h3>
               <p>
-                Escolha categorias ou avalie algumas obras ao lado e selecione “Gerar recomendações”
-                para iniciar a curadoria.
+                {mode === "custom"
+                  ? "Dê um nome ao perfil e escolha ao menos duas categorias para começar."
+                  : "Ajuste seus interesses para iniciar uma nova curadoria."}
               </p>
             </div>
           )}
         </section>
       </main>
       <footer className="data-footer">Dados: National Gallery of Art Open Data (CC0)</footer>
-      {selected && <DetailsModal recommendation={selected} onClose={() => setSelected(null)} />}
+      {historyNotice && (
+        <div className="history-notice" role="status">
+          <span>{historyNotice.message}</span>
+          <button type="button" onClick={undoHistoryChange}>
+            Desfazer
+          </button>
+        </div>
+      )}
+      {selected && (
+        <DetailsModal
+          recommendation={selected}
+          onClose={() => setSelected(null)}
+          rating={
+            currentRatings.find((item) => item.paintingId === selected.paintingId)?.rating ?? 0
+          }
+          onRate={(rating) => updateRating(selected.paintingId, rating)}
+        />
+      )}
     </div>
   );
 }
