@@ -1,33 +1,47 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import data from "./data/mockData.json";
 import {
+  buildInitialProfile,
   buildTasteProfile,
+  recommend,
   recommendFromRatings,
+  updateProfileWithRatings,
+  type CategoryGroup,
   type Painting,
   type Rating,
   type Recommendation,
+  type SelectedCategories,
 } from "./recommender";
 
 type Mode = "existing" | "custom";
 
 const paintings = data.paintings as Painting[];
 const paintingMap = new Map(paintings.map((painting) => [painting.id, painting]));
+const featureTypeLabels = {
+  theme: "tema",
+  style: "estilo",
+  school: "escola",
+  keyword: "palavra-chave",
+  artist: "artista",
+} as const;
 
 function ArtImage({
   painting,
   className = "",
   eager = false,
+  thumbnail = false,
 }: {
   painting: Painting;
   className?: string;
   eager?: boolean;
+  thumbnail?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   return (
     <div className={`art-image ${className}`}>
       {!failed ? (
         <img
-          src={painting.imageUrl}
+          src={thumbnail ? painting.thumbUrl : painting.imageUrl}
           alt={`${painting.title}, de ${painting.artist}`}
           loading={eager ? "eager" : "lazy"}
           onError={() => setFailed(true)}
@@ -78,17 +92,44 @@ function Stars({
   );
 }
 
-function TasteProfile({ profile }: { profile: { name: string; weight: number }[] }) {
+function AttributeChips({ values, compact = false }: { values: string[]; compact?: boolean }) {
+  if (!values.length) return null;
+  return (
+    <div className={`subject-chips ${compact ? "compact" : ""}`}>
+      {values.map((value) => (
+        <span key={value}>{value}</span>
+      ))}
+    </div>
+  );
+}
+
+function TasteProfile({
+  profile,
+  onEdit,
+}: {
+  profile: { name: string; type: string; weight: number }[];
+  onEdit?: () => void;
+}) {
   return (
     <section className="taste-card" aria-labelledby="taste-title">
       <div className="eyebrow">Vetor de preferências</div>
-      <h3 id="taste-title">Seu perfil de gosto</h3>
+      <div className="taste-heading">
+        <h3 id="taste-title">Seu perfil de gosto</h3>
+        {onEdit && (
+          <button type="button" onClick={onEdit}>
+            Editar categorias
+          </button>
+        )}
+      </div>
       {profile.length ? (
         <div className="taste-list">
           {profile.map((item) => (
-            <div className="taste-row" key={item.name}>
+            <div className="taste-row" key={`${item.type}-${item.name}`}>
               <div>
-                <span>{item.name}</span>
+                <span>
+                  <small>{item.type}</small>
+                  {item.name}
+                </span>
                 <strong>{Math.round(item.weight * 100)}%</strong>
               </div>
               <div className="bar-track">
@@ -98,7 +139,9 @@ function TasteProfile({ profile }: { profile: { name: string; weight: number }[]
           ))}
         </div>
       ) : (
-        <p className="muted">Avalie ao menos 3 obras para revelar os seus principais atributos.</p>
+        <p className="muted">
+          Escolha categorias ou avalie obras para revelar os seus principais atributos.
+        </p>
       )}
     </section>
   );
@@ -141,21 +184,37 @@ function DetailsModal({
           <div className="eyebrow">Ficha completa da obra</div>
           <h2 id="modal-title">{painting.title}</h2>
           <p className="modal-artist">
-            {painting.artist}, {painting.year}
+            {painting.artist}, {painting.displayDate}
           </p>
           <dl className="attributes">
+            {painting.style && (
+              <div>
+                <dt>Estilo</dt>
+                <dd>{painting.style}</dd>
+              </div>
+            )}
             <div>
-              <dt>Estilo</dt>
-              <dd>{painting.style}</dd>
+              <dt>Escola</dt>
+              <dd>{painting.school}</dd>
             </div>
             <div>
-              <dt>Nacionalidade</dt>
-              <dd>{painting.nationality}</dd>
+              <dt>Tema</dt>
+              <dd>
+                <AttributeChips values={[painting.broadTheme, painting.theme]} compact />
+              </dd>
             </div>
             <div>
-              <dt>Museu / coleção</dt>
-              <dd>{painting.museum}</dd>
+              <dt>Técnica / suporte</dt>
+              <dd>{painting.medium}</dd>
             </div>
+            {painting.keywords.length > 0 && (
+              <div>
+                <dt>Palavras-chave</dt>
+                <dd>
+                  <AttributeChips values={painting.keywords} compact />
+                </dd>
+              </div>
+            )}
             <div>
               <dt>Similaridade do cosseno</dt>
               <dd>{recommendation.score.toFixed(2).replace(".", ",")}</dd>
@@ -164,8 +223,13 @@ function DetailsModal({
           <h3>Decomposição da explicação</h3>
           <div className="decomposition">
             {recommendation.matchedFeatures.map((feature) => (
-              <div key={feature.name}>
-                <span>{feature.name}</span>
+              <div key={`${feature.origin}-${feature.name}`}>
+                <span>
+                  <small>{featureTypeLabels[feature.type]}</small>
+                  {feature.origin === "selection"
+                    ? `Você escolheu: ${feature.name.replace(/^[^:]+: /, "")}`
+                    : `Das obras avaliadas: ${feature.name.replace(/^[^:]+: /, "")}`}
+                </span>
                 <strong>+{feature.contribution.toFixed(2).replace(".", ",")}</strong>
                 <div className="bar-track">
                   <div className="bar-fill" style={{ width: `${feature.contribution * 200}%` }} />
@@ -189,7 +253,9 @@ function RecommendationCard({
   onDetails: () => void;
 }) {
   const painting = paintingMap.get(recommendation.paintingId)!;
-  const similar = paintingMap.get(recommendation.mostSimilarHistoryItemId)!;
+  const similar = recommendation.mostSimilarHistoryItemId
+    ? paintingMap.get(recommendation.mostSimilarHistoryItemId)
+    : undefined;
   return (
     <article className="recommendation-card">
       <div className="rank">#{rank}</div>
@@ -199,7 +265,7 @@ function RecommendationCard({
           <div>
             <h3>{painting.title}</h3>
             <p>
-              {painting.artist} <span>·</span> {painting.year}
+              {painting.artist} <span>·</span> {painting.displayDate}
             </p>
           </div>
           <button className="details-button" type="button" onClick={onDetails}>
@@ -207,10 +273,15 @@ function RecommendationCard({
           </button>
         </div>
         <div className="metadata">
-          <span>{painting.style}</span>
-          <i />
-          <span>{painting.museum}</span>
+          {painting.style && (
+            <>
+              <span>{painting.style}</span>
+              <i />
+            </>
+          )}
+          <span>{painting.school}</span>
         </div>
+        <AttributeChips values={[painting.broadTheme, painting.theme, ...painting.keywords]} />
         <div className="score-row">
           <div>
             <span>Similaridade do cosseno</span>
@@ -224,24 +295,203 @@ function RecommendationCard({
           <div className="eyebrow">Por que recomendamos?</div>
           <div className="chips">
             {recommendation.matchedFeatures.map((feature) => (
-              <span key={feature.name}>
-                {feature.name} <strong>+{feature.contribution.toFixed(2).replace(".", ",")}</strong>
+              <span
+                key={`${feature.origin}-${feature.name}`}
+                className={`explanation-chip ${feature.origin}`}
+              >
+                <span className="source-icon" aria-hidden="true">
+                  {feature.origin === "selection" ? "✓" : "◷"}
+                </span>
+                <small>{featureTypeLabels[feature.type]}</small>
+                {feature.origin === "selection"
+                  ? `Você escolheu: ${feature.name.replace(/^[^:]+: /, "")}`
+                  : `Das obras que você avaliou: ${feature.name.replace(/^[^:]+: /, "")}`}
+                <strong>+{feature.contribution.toFixed(2).replace(".", ",")}</strong>
               </span>
             ))}
           </div>
           {similar && (
             <div className="similar-work">
-              <ArtImage painting={similar} />
+              <ArtImage painting={similar} thumbnail />
               <div>
                 <small>Mais parecida com</small>
                 <strong>{similar.title}</strong>
               </div>
-              <span>{recommendation.similarityToHistoryItem.toFixed(2).replace(".", ",")}</span>
+              <span>{recommendation.similarityToHistoryItem?.toFixed(2).replace(".", ",")}</span>
             </div>
           )}
         </div>
       </div>
     </article>
+  );
+}
+
+const emptyCategories = (): SelectedCategories => ({
+  styles: [],
+  themes: [],
+  schools: [],
+  artists: [],
+});
+
+function CategoryOnboarding({
+  selected,
+  onChange,
+  onContinue,
+  onSkip,
+  editing,
+}: {
+  selected: SelectedCategories;
+  onChange: (value: SelectedCategories) => void;
+  onContinue: () => void;
+  onSkip: () => void;
+  editing: boolean;
+}) {
+  const [artistQuery, setArtistQuery] = useState("");
+  const [expandedGroups, setExpandedGroups] = useState<CategoryGroup[]>([]);
+  const groupNames: Record<CategoryGroup, string> = {
+    styles: "Estilos",
+    themes: "Temas",
+    schools: "Escola",
+    artists: "Artistas",
+  };
+  const selectedCount = Object.values(selected).flat().length;
+  const toggle = (group: CategoryGroup, value: string) => {
+    const current = selected[group].find((item) => item.value === value);
+    const nextGroup = current
+      ? current.weight === 1
+        ? selected[group].map((item) =>
+            item.value === value ? { ...item, weight: 2 as const } : item,
+          )
+        : selected[group].filter((item) => item.value !== value)
+      : [...selected[group], { value, weight: 1 as const }];
+    onChange({ ...selected, [group]: nextGroup });
+  };
+  const matchingArtists = data.categories.artists
+    .filter((artist) => artist.toLocaleLowerCase().includes(artistQuery.toLocaleLowerCase()))
+    .slice(0, 5);
+
+  return (
+    <div className="onboarding" aria-labelledby="onboarding-title">
+      <div className="step-indicator">
+        <span>Etapa 1 de 2</span>
+        <div>
+          <i className="active" />
+          <i />
+        </div>
+      </div>
+      <div className="eyebrow">Comece pelo que desperta seu olhar</div>
+      <h2 id="onboarding-title">O que você gosta de ver?</h2>
+      <p>
+        Escolha pelo menos duas categorias. Toque novamente para marcar “Gosto muito” e uma terceira
+        vez para desmarcar.
+      </p>
+
+      {(Object.keys(groupNames) as CategoryGroup[]).map((group) => (
+        <fieldset className="category-group" key={group}>
+          <legend>{groupNames[group]}</legend>
+          {group === "artists" && (
+            <div className="artist-search">
+              <label htmlFor="artist-search">Buscar artista</label>
+              <input
+                id="artist-search"
+                value={artistQuery}
+                onChange={(event) => setArtistQuery(event.target.value)}
+                placeholder="Digite um nome..."
+                autoComplete="off"
+              />
+              {artistQuery && (
+                <div
+                  className="artist-suggestions"
+                  role="listbox"
+                  aria-label="Sugestões de artistas"
+                >
+                  {matchingArtists.map((artist) => (
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={Boolean(
+                        selected.artists.find((item) => item.value === artist),
+                      )}
+                      key={artist}
+                      onClick={() => {
+                        toggle("artists", artist);
+                        setArtistQuery("");
+                      }}
+                    >
+                      {artist}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          <div className="category-chips">
+            {data.categories[group]
+              .slice(0, expandedGroups.includes(group) ? undefined : group === "artists" ? 8 : 10)
+              .map((value) => {
+                const choice = selected[group].find((item) => item.value === value);
+                return (
+                  <button
+                    type="button"
+                    key={value}
+                    aria-pressed={Boolean(choice)}
+                    className={choice ? `selected weight-${choice.weight}` : ""}
+                    onClick={() => toggle(group, value)}
+                    title={
+                      choice?.weight === 2
+                        ? "Gosto muito — clique para desmarcar"
+                        : choice
+                          ? "Gosto — clique para aumentar o interesse"
+                          : "Selecionar categoria"
+                    }
+                  >
+                    {value}
+                    {choice && (
+                      <span aria-label={choice.weight === 2 ? "Gosto muito" : "Gosto"}>
+                        {choice.weight === 2 ? "••" : "•"}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+          </div>
+          {data.categories[group].length > (group === "artists" ? 8 : 10) && (
+            <button
+              type="button"
+              className="show-more-button"
+              onClick={() =>
+                setExpandedGroups((current) =>
+                  current.includes(group)
+                    ? current.filter((item) => item !== group)
+                    : [...current, group],
+                )
+              }
+            >
+              {expandedGroups.includes(group) ? "Ver menos" : "Ver mais"}
+            </button>
+          )}
+        </fieldset>
+      ))}
+
+      <div className="onboarding-actions">
+        <span>
+          <strong>{selectedCount}</strong> categorias escolhidas
+        </span>
+        <button
+          type="button"
+          className="primary-button"
+          disabled={selectedCount < 2}
+          onClick={onContinue}
+        >
+          {editing ? "Salvar e recalcular" : "Continuar"} <span>→</span>
+        </button>
+        {!editing && (
+          <button type="button" className="skip-button" onClick={onSkip}>
+            Pular e avaliar obras direto
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -251,14 +501,45 @@ function App() {
   const [count, setCount] = useState<5 | 10>(5);
   const [diversify, setDiversify] = useState(false);
   const [customRatings, setCustomRatings] = useState<Rating[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>(emptyCategories);
+  const [onboardingStep, setOnboardingStep] = useState<1 | 2>(1);
+  const [editingCategories, setEditingCategories] = useState(false);
   const [customResults, setCustomResults] = useState<Recommendation[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Recommendation | null>(null);
 
   const user = data.users.find((item) => item.id === userId)!;
-  const activeRatings = mode === "existing" ? user.ratings : customRatings;
-  const tasteProfile = useMemo(() => buildTasteProfile(paintings, activeRatings), [activeRatings]);
+  const existingProfile = useMemo(
+    () => updateProfileWithRatings(buildInitialProfile(emptyCategories()), user.ratings, paintings),
+    [user],
+  );
+  const customProfile = useMemo(
+    () =>
+      updateProfileWithRatings(buildInitialProfile(selectedCategories), customRatings, paintings),
+    [selectedCategories, customRatings],
+  );
+  const tasteProfile = buildTasteProfile(mode === "existing" ? existingProfile : customProfile);
+  const selectedCount = Object.values(selectedCategories).flat().length;
+  const prioritizedPaintings = useMemo(() => {
+    if (!selectedCount) return paintings.slice(0, 24);
+    const selectedValues = new Set(
+      Object.values(selectedCategories)
+        .flat()
+        .map((item) => item.value),
+    );
+    const matches = paintings.filter(
+      (painting) =>
+        selectedValues.has(painting.style) ||
+        selectedValues.has(painting.broadStyle) ||
+        selectedValues.has(painting.artist) ||
+        selectedValues.has(painting.school) ||
+        selectedValues.has(painting.broadTheme) ||
+        selectedValues.has(painting.theme),
+    );
+    const exploration = paintings.filter((painting) => !matches.includes(painting));
+    return [...matches.slice(0, 18), ...exploration.slice(0, 6)].slice(0, 24);
+  }, [selectedCategories, selectedCount]);
   const existingRecommendations = data.recommendations[
     userId as keyof typeof data.recommendations
   ] as Recommendation[];
@@ -279,13 +560,13 @@ function App() {
   };
 
   const generate = () => {
-    if (customRatings.length < 3) return;
+    if (selectedCount < 2 && customRatings.length < 3) return;
     setLoading(true);
     setError(null);
     setCustomResults(null);
     window.setTimeout(() => {
       try {
-        const nextResults = recommendFromRatings(paintings, customRatings, diversify);
+        const nextResults = recommend(customProfile, paintings.length, paintings, diversify);
         if (!nextResults.length) throw new Error("Nenhuma recomendação disponível");
         setCustomResults(nextResults);
       } catch {
@@ -300,7 +581,7 @@ function App() {
 
   useEffect(() => {
     if (mode === "custom" && customResults) {
-      setCustomResults(recommendFromRatings(paintings, customRatings, diversify));
+      setCustomResults(recommend(customProfile, paintings.length, paintings, diversify));
     }
   }, [diversify]); // updates generated custom recommendations when MMR changes
 
@@ -406,10 +687,14 @@ function App() {
                       className={`history-item ${rating.rating <= 2 ? "disliked" : ""}`}
                       key={rating.paintingId}
                     >
-                      <ArtImage painting={painting} />
+                      <ArtImage painting={painting} thumbnail />
                       <div>
                         <strong>{painting.title}</strong>
                         <span>{painting.artist}</span>
+                        <AttributeChips
+                          values={[painting.broadTheme, ...painting.keywords.slice(0, 1)]}
+                          compact
+                        />
                         <Stars value={rating.rating} compact />
                       </div>
                       {rating.rating <= 2 && <small>Não gostou</small>}
@@ -418,16 +703,45 @@ function App() {
                 })}
               </div>
             </>
+          ) : onboardingStep === 1 ? (
+            <CategoryOnboarding
+              selected={selectedCategories}
+              onChange={setSelectedCategories}
+              editing={editingCategories}
+              onContinue={() => {
+                setOnboardingStep(2);
+                if (editingCategories && customResults) generate();
+                setEditingCategories(false);
+              }}
+              onSkip={() => {
+                setSelectedCategories(emptyCategories());
+                setOnboardingStep(2);
+              }}
+            />
           ) : (
             <>
-              <p className="intro">Avalie obras para criarmos um vetor único de preferências.</p>
+              <div className="step-indicator">
+                <span>Etapa 2 de 2 · opcional</span>
+                <div>
+                  <i className="active" />
+                  <i className="active" />
+                </div>
+              </div>
+              <div className="rating-step-heading">
+                <div className="eyebrow">Refine seu perfil</div>
+                <h2>Avalie algumas obras</h2>
+                <p className="intro">
+                  Priorizamos obras próximas às suas escolhas e incluímos novos caminhos para
+                  ampliar a descoberta.
+                </p>
+              </div>
               <div className="rating-grid">
-                {paintings.slice(0, 24).map((painting) => {
+                {prioritizedPaintings.map((painting) => {
                   const rating =
                     customRatings.find((item) => item.paintingId === painting.id)?.rating ?? 0;
                   return (
                     <div className="rating-item" key={painting.id}>
-                      <ArtImage painting={painting} />
+                      <ArtImage painting={painting} thumbnail />
                       <div>
                         <strong>{painting.title}</strong>
                         <span>{painting.artist}</span>
@@ -443,7 +757,10 @@ function App() {
               </div>
               <div className="rating-actions">
                 <div>
-                  <strong>{customRatings.length}</strong> obras avaliadas <span>mínimo 3</span>
+                  <strong>{customRatings.length}</strong> obras avaliadas
+                  <span>
+                    {selectedCount >= 2 ? "avaliação opcional" : "mínimo 3 sem categorias"}
+                  </span>
                 </div>
                 <button
                   className="clear-button"
@@ -459,14 +776,24 @@ function App() {
                 <button
                   className="primary-button"
                   onClick={generate}
-                  disabled={customRatings.length < 3 || loading}
+                  disabled={(selectedCount < 2 && customRatings.length < 3) || loading}
                 >
                   Gerar recomendações <span>→</span>
                 </button>
               </div>
             </>
           )}
-          <TasteProfile profile={tasteProfile} />
+          <TasteProfile
+            profile={tasteProfile}
+            onEdit={
+              mode === "custom" && selectedCount > 0 && onboardingStep === 2
+                ? () => {
+                    setEditingCategories(true);
+                    setOnboardingStep(1);
+                  }
+                : undefined
+            }
+          />
         </aside>
 
         <section className="results" aria-labelledby="results-title" aria-live="polite">
@@ -525,13 +852,14 @@ function App() {
               <div className="eyebrow">A galeria aguarda seu olhar</div>
               <h3>Suas recomendações aparecerão aqui</h3>
               <p>
-                Avalie pelo menos três obras ao lado e selecione “Gerar recomendações” para iniciar
-                a curadoria.
+                Escolha categorias ou avalie algumas obras ao lado e selecione “Gerar recomendações”
+                para iniciar a curadoria.
               </p>
             </div>
           )}
         </section>
       </main>
+      <footer className="data-footer">Dados: National Gallery of Art Open Data (CC0)</footer>
       {selected && <DetailsModal recommendation={selected} onClose={() => setSelected(null)} />}
     </div>
   );

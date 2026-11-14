@@ -2,403 +2,603 @@
   "paintings": [
     {
       "id": "p01",
-      "title": "Impressão, nascer do sol",
-      "artist": "Claude Monet",
-      "year": 1872,
-      "style": "Impressionismo",
-      "museum": "Musée Marmottan Monet",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Claude_Monet%2C_Impression%2C_soleil_levant.jpg/800px-Claude_Monet%2C_Impression%2C_soleil_levant.jpg"
+      "title": "Madonna and Child",
+      "artist": "Vittore Carpaccio",
+      "displayDate": "c. 1505/1510",
+      "medium": "oil on poplar panel",
+      "theme": "Madonna and Child",
+      "broadTheme": "religious",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Angel"],
+      "school": "Venetian",
+      "imageUrl": "https://picsum.photos/seed/nga-p01/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p01/240/200"
     },
     {
       "id": "p02",
-      "title": "Nenúfares",
-      "artist": "Claude Monet",
-      "year": 1916,
-      "style": "Impressionismo",
-      "museum": "Museu Nacional de Arte Ocidental",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/800px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg"
+      "title": "Madonna and Child Enthroned",
+      "artist": "Gentile da Fabriano",
+      "displayDate": "c. 1420",
+      "medium": "tempera on poplar panel",
+      "theme": "Madonna and Child",
+      "broadTheme": "religious",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": [],
+      "school": "Italian",
+      "imageUrl": "https://picsum.photos/seed/nga-p02/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p02/240/200"
     },
     {
       "id": "p03",
-      "title": "A noite estrelada",
-      "artist": "Vincent van Gogh",
-      "year": 1889,
-      "style": "Pós-impressionismo",
-      "museum": "MoMA",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/The_Starry_Night.JPG/800px-The_Starry_Night.JPG"
+      "title": "Autumn",
+      "artist": "Winslow Homer",
+      "displayDate": "1877",
+      "medium": "oil on canvas",
+      "theme": "female",
+      "broadTheme": "figure",
+      "style": "Realist",
+      "broadStyle": "Realism",
+      "keywords": ["Standing"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p03/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p03/240/200"
     },
     {
       "id": "p04",
-      "title": "Lírios",
-      "artist": "Vincent van Gogh",
-      "year": 1889,
-      "style": "Pós-impressionismo",
-      "museum": "Getty Museum",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Irises-Vincent_van_Gogh.jpg/800px-Irises-Vincent_van_Gogh.jpg"
+      "title": "The Finding of Moses",
+      "artist": "Veronese",
+      "displayDate": "c. 1581/1582",
+      "medium": "oil on canvas",
+      "theme": "Old Testament",
+      "broadTheme": "religious",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Moses", "River"],
+      "school": "Italian",
+      "imageUrl": "https://picsum.photos/seed/nga-p04/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p04/240/200"
     },
     {
       "id": "p05",
-      "title": "O baile no Moulin de la Galette",
-      "artist": "Pierre-Auguste Renoir",
-      "year": 1876,
-      "style": "Impressionismo",
-      "museum": "Musée d'Orsay",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Pierre-Auguste_Renoir%2C_Le_Moulin_de_la_Galette.jpg/800px-Pierre-Auguste_Renoir%2C_Le_Moulin_de_la_Galette.jpg"
+      "title": "The Japanese Footbridge",
+      "artist": "Claude Monet",
+      "displayDate": "1899",
+      "medium": "oil on canvas",
+      "theme": "garden",
+      "broadTheme": "landscape",
+      "style": "Impressionist",
+      "broadStyle": "Impressionism",
+      "keywords": ["Bridge", "Water Lily"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p05/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p05/240/200"
     },
     {
       "id": "p06",
-      "title": "A aula de dança",
-      "artist": "Edgar Degas",
-      "year": 1874,
-      "style": "Impressionismo",
-      "museum": "Metropolitan Museum",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Edgar_Degas_-_The_Dance_Class_-_Google_Art_Project.jpg/800px-Edgar_Degas_-_The_Dance_Class_-_Google_Art_Project.jpg"
+      "title": "Woman with a Parasol—Madame Monet and Her Son",
+      "artist": "Claude Monet",
+      "displayDate": "1875",
+      "medium": "oil on canvas",
+      "theme": "mother and child",
+      "broadTheme": "figure",
+      "style": "Impressionist",
+      "broadStyle": "Impressionism",
+      "keywords": ["Parasol", "Standing"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p06/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p06/240/200"
     },
     {
       "id": "p07",
-      "title": "Almoço na relva",
-      "artist": "Édouard Manet",
-      "year": 1863,
-      "style": "Realismo",
-      "museum": "Musée d'Orsay",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Édouard_Manet_-_Le_Déjeuner_sur_l%27herbe.jpg/800px-Édouard_Manet_-_Le_Déjeuner_sur_l%27herbe.jpg"
+      "title": "Ginevra de’ Benci",
+      "artist": "Leonardo da Vinci",
+      "displayDate": "c. 1474/1478",
+      "medium": "oil on panel",
+      "theme": "female portrait",
+      "broadTheme": "portrait",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Juniper"],
+      "school": "Italian",
+      "imageUrl": "https://picsum.photos/seed/nga-p07/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p07/240/200"
     },
     {
       "id": "p08",
-      "title": "A grande onda de Kanagawa",
-      "artist": "Katsushika Hokusai",
-      "year": 1831,
-      "style": "Ukiyo-e",
-      "museum": "Metropolitan Museum",
-      "nationality": "Japonesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/The_Great_Wave_off_Kanagawa.jpg/800px-The_Great_Wave_off_Kanagawa.jpg"
+      "title": "The Alba Madonna",
+      "artist": "Raphael",
+      "displayDate": "c. 1510",
+      "medium": "oil on panel transferred to canvas",
+      "theme": "Madonna and Child",
+      "broadTheme": "religious",
+      "style": "High Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Landscape", "Christ Child"],
+      "school": "Italian",
+      "imageUrl": "https://picsum.photos/seed/nga-p08/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p08/240/200"
     },
     {
       "id": "p09",
-      "title": "Moça com brinco de pérola",
-      "artist": "Johannes Vermeer",
-      "year": 1665,
-      "style": "Barroco",
-      "museum": "Mauritshuis",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Meisje_met_de_parel.jpg/800px-Meisje_met_de_parel.jpg"
+      "title": "The Annunciation",
+      "artist": "Jan van Eyck",
+      "displayDate": "c. 1434/1436",
+      "medium": "oil on canvas transferred from panel",
+      "theme": "Annunciation",
+      "broadTheme": "religious",
+      "style": "Northern Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Angel", "Church"],
+      "school": "Flemish",
+      "imageUrl": "https://picsum.photos/seed/nga-p09/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p09/240/200"
     },
     {
       "id": "p10",
-      "title": "A leiteira",
-      "artist": "Johannes Vermeer",
-      "year": 1658,
-      "style": "Barroco",
-      "museum": "Rijksmuseum",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Vermeer_-_The_Milkmaid.jpg/800px-Vermeer_-_The_Milkmaid.jpg"
+      "title": "Self-Portrait",
+      "artist": "Rembrandt van Rijn",
+      "displayDate": "1659",
+      "medium": "oil on canvas",
+      "theme": "male portrait",
+      "broadTheme": "portrait",
+      "style": "Baroque",
+      "broadStyle": "Baroque",
+      "keywords": ["Self-Portrait"],
+      "school": "Dutch",
+      "imageUrl": "https://picsum.photos/seed/nga-p10/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p10/240/200"
     },
     {
       "id": "p11",
-      "title": "As meninas",
-      "artist": "Diego Velázquez",
-      "year": 1656,
-      "style": "Barroco",
-      "museum": "Museu do Prado",
-      "nationality": "Espanhola",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Las_Meninas_01.jpg/800px-Las_Meninas_01.jpg"
+      "title": "Girl with a Flute",
+      "artist": "Johannes Vermeer",
+      "displayDate": "c. 1669/1675",
+      "medium": "oil on panel",
+      "theme": "female",
+      "broadTheme": "figure",
+      "style": "",
+      "broadStyle": "Baroque",
+      "keywords": ["Musical Instrument"],
+      "school": "Dutch",
+      "imageUrl": "https://picsum.photos/seed/nga-p11/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p11/240/200"
     },
     {
       "id": "p12",
-      "title": "O nascimento de Vênus",
-      "artist": "Sandro Botticelli",
-      "year": 1485,
-      "style": "Renascimento",
-      "museum": "Galleria degli Uffizi",
-      "nationality": "Italiana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere.jpg/800px-Sandro_Botticelli_-_La_nascita_di_Venere.jpg"
+      "title": "A Lady Writing",
+      "artist": "Johannes Vermeer",
+      "displayDate": "c. 1665",
+      "medium": "oil on canvas",
+      "theme": "female interior",
+      "broadTheme": "figure",
+      "style": "Baroque",
+      "broadStyle": "Baroque",
+      "keywords": ["Letter", "Writing"],
+      "school": "Dutch",
+      "imageUrl": "https://picsum.photos/seed/nga-p12/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p12/240/200"
     },
     {
       "id": "p13",
-      "title": "Mona Lisa",
-      "artist": "Leonardo da Vinci",
-      "year": 1503,
-      "style": "Renascimento",
-      "museum": "Museu do Louvre",
-      "nationality": "Italiana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Mona_Lisa.jpg/800px-Mona_Lisa.jpg"
+      "title": "The Adoration of the Magi",
+      "artist": "Sandro Botticelli",
+      "displayDate": "c. 1478/1482",
+      "medium": "tempera and oil on panel",
+      "theme": "Adoration of the Magi",
+      "broadTheme": "religious",
+      "style": "Early Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Christ Child", "Kings"],
+      "school": "Italian",
+      "imageUrl": "https://picsum.photos/seed/nga-p13/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p13/240/200"
     },
     {
       "id": "p14",
-      "title": "A criação de Adão",
-      "artist": "Michelangelo",
-      "year": 1512,
-      "style": "Renascimento",
-      "museum": "Museus Vaticanos",
-      "nationality": "Italiana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg/800px-Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg"
+      "title": "The Feast of the Gods",
+      "artist": "Giovanni Bellini and Titian",
+      "displayDate": "1514/1529",
+      "medium": "oil on canvas",
+      "theme": "feast of the gods",
+      "broadTheme": "mythology",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Banquet", "Gods"],
+      "school": "Venetian",
+      "imageUrl": "https://picsum.photos/seed/nga-p14/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p14/240/200"
     },
     {
       "id": "p15",
-      "title": "A escola de Atenas",
-      "artist": "Rafael",
-      "year": 1511,
-      "style": "Renascimento",
-      "museum": "Museus Vaticanos",
-      "nationality": "Italiana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sanzio_01.jpg/800px-Sanzio_01.jpg"
+      "title": "Venus with a Mirror",
+      "artist": "Titian",
+      "displayDate": "c. 1555",
+      "medium": "oil on canvas",
+      "theme": "Venus",
+      "broadTheme": "mythology",
+      "style": "Renaissance",
+      "broadStyle": "Renaissance",
+      "keywords": ["Mirror", "Cupid"],
+      "school": "Venetian",
+      "imageUrl": "https://picsum.photos/seed/nga-p15/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p15/240/200"
     },
     {
       "id": "p16",
-      "title": "O grito",
-      "artist": "Edvard Munch",
-      "year": 1893,
-      "style": "Expressionismo",
-      "museum": "Galeria Nacional da Noruega",
-      "nationality": "Norueguesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/800px-The_Scream.jpg"
+      "title": "Laocoön",
+      "artist": "El Greco",
+      "displayDate": "c. 1610/1614",
+      "medium": "oil on canvas",
+      "theme": "Laocoön",
+      "broadTheme": "mythology",
+      "style": "Mannerist",
+      "broadStyle": "Renaissance",
+      "keywords": ["Serpent", "Trojan War"],
+      "school": "Spanish",
+      "imageUrl": "https://picsum.photos/seed/nga-p16/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p16/240/200"
     },
     {
       "id": "p17",
-      "title": "O beijo",
-      "artist": "Gustav Klimt",
-      "year": 1908,
-      "style": "Art Nouveau",
-      "museum": "Belvedere",
-      "nationality": "Austríaca",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/800px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg"
+      "title": "The Repentant Magdalen",
+      "artist": "Georges de La Tour",
+      "displayDate": "c. 1635/1640",
+      "medium": "oil on canvas",
+      "theme": "Mary Magdalen",
+      "broadTheme": "religious",
+      "style": "Baroque",
+      "broadStyle": "Baroque",
+      "keywords": ["Candle", "Skull"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p17/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p17/240/200"
     },
     {
       "id": "p18",
-      "title": "Composição VIII",
-      "artist": "Wassily Kandinsky",
-      "year": 1923,
-      "style": "Abstracionismo",
-      "museum": "Guggenheim Museum",
-      "nationality": "Russa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Kandinsky_-_Komposition_8%2C_1923.jpg/800px-Kandinsky_-_Komposition_8%2C_1923.jpg"
+      "title": "The Swing",
+      "artist": "Jean Honoré Fragonard",
+      "displayDate": "c. 1775/1780",
+      "medium": "oil on canvas",
+      "theme": "young woman",
+      "broadTheme": "figure",
+      "style": "Rococo",
+      "broadStyle": "Rococo",
+      "keywords": ["Swing", "Garden"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p18/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p18/240/200"
     },
     {
       "id": "p19",
-      "title": "Composição com vermelho, azul e amarelo",
-      "artist": "Piet Mondrian",
-      "year": 1930,
-      "style": "Neoplasticismo",
-      "museum": "Kunsthaus Zürich",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg/800px-Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg"
+      "title": "The Emperor Napoleon in His Study at the Tuileries",
+      "artist": "Jacques-Louis David",
+      "displayDate": "1812",
+      "medium": "oil on canvas",
+      "theme": "male portrait",
+      "broadTheme": "portrait",
+      "style": "Neoclassical",
+      "broadStyle": "Neoclassicism",
+      "keywords": ["Napoleon", "Uniform"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p19/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p19/240/200"
     },
     {
       "id": "p20",
-      "title": "A persistência da memória",
-      "artist": "Salvador Dalí",
-      "year": 1931,
-      "style": "Surrealismo",
-      "museum": "MoMA",
-      "nationality": "Espanhola",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg"
+      "title": "Watson and the Shark",
+      "artist": "John Singleton Copley",
+      "displayDate": "1778",
+      "medium": "oil on canvas",
+      "theme": "rescue at sea",
+      "broadTheme": "history",
+      "style": "History Painting",
+      "broadStyle": "Neoclassicism",
+      "keywords": ["Shark", "Boat", "Sea"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p20/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p20/240/200"
     },
     {
       "id": "p21",
-      "title": "O filho do homem",
-      "artist": "René Magritte",
-      "year": 1964,
-      "style": "Surrealismo",
-      "museum": "Coleção privada",
-      "nationality": "Belga",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/e/e5/Magritte_TheSonOfMan.jpg"
+      "title": "George Washington",
+      "artist": "Gilbert Stuart",
+      "displayDate": "1795",
+      "medium": "oil on canvas",
+      "theme": "male portrait",
+      "broadTheme": "portrait",
+      "style": "",
+      "broadStyle": "Neoclassicism",
+      "keywords": ["President"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p21/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p21/240/200"
     },
     {
       "id": "p22",
-      "title": "Guernica",
-      "artist": "Pablo Picasso",
-      "year": 1937,
-      "style": "Cubismo",
-      "museum": "Museo Reina Sofía",
-      "nationality": "Espanhola",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg"
+      "title": "The Skater",
+      "artist": "Gilbert Stuart",
+      "displayDate": "1782",
+      "medium": "oil on canvas",
+      "theme": "male portrait",
+      "broadTheme": "portrait",
+      "style": "Romantic",
+      "broadStyle": "Romanticism",
+      "keywords": ["Ice", "Skating"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p22/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p22/240/200"
     },
     {
       "id": "p23",
-      "title": "Les Demoiselles d'Avignon",
-      "artist": "Pablo Picasso",
-      "year": 1907,
-      "style": "Cubismo",
-      "museum": "MoMA",
-      "nationality": "Espanhola",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/4/4c/Les_Demoiselles_d%27Avignon.jpg"
+      "title": "The Voyage of Life: Childhood",
+      "artist": "Thomas Cole",
+      "displayDate": "1842",
+      "medium": "oil on canvas",
+      "theme": "allegorical landscape",
+      "broadTheme": "landscape",
+      "style": "Romantic",
+      "broadStyle": "Romanticism",
+      "keywords": ["Boat", "Angel", "River"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p23/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p23/240/200"
     },
     {
       "id": "p24",
-      "title": "Autorretrato com colar de espinhos",
-      "artist": "Frida Kahlo",
-      "year": 1940,
-      "style": "Surrealismo",
-      "museum": "Harry Ransom Center",
-      "nationality": "Mexicana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/1/1e/Frida_Kahlo_%28self_portrait%29.jpg"
+      "title": "Mount Corcoran",
+      "artist": "Albert Bierstadt",
+      "displayDate": "c. 1876/1877",
+      "medium": "oil on canvas",
+      "theme": "mountain landscape",
+      "broadTheme": "landscape",
+      "style": "Romantic",
+      "broadStyle": "Romanticism",
+      "keywords": ["Mountain", "Lake"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p24/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p24/240/200"
     },
     {
       "id": "p25",
-      "title": "American Gothic",
-      "artist": "Grant Wood",
-      "year": 1930,
-      "style": "Regionalismo",
-      "museum": "Art Institute of Chicago",
-      "nationality": "Estadunidense",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg/800px-Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg"
+      "title": "Breezing Up (A Fair Wind)",
+      "artist": "Winslow Homer",
+      "displayDate": "1873/1876",
+      "medium": "oil on canvas",
+      "theme": "sailing",
+      "broadTheme": "landscape",
+      "style": "Realist",
+      "broadStyle": "Realism",
+      "keywords": ["Boat", "Sea", "Boy"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p25/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p25/240/200"
     },
     {
       "id": "p26",
-      "title": "Nighthawks",
-      "artist": "Edward Hopper",
-      "year": 1942,
-      "style": "Realismo",
-      "museum": "Art Institute of Chicago",
-      "nationality": "Estadunidense",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/800px-Nighthawks_by_Edward_Hopper_1942.jpg"
+      "title": "Hound and Hunter",
+      "artist": "Winslow Homer",
+      "displayDate": "1892",
+      "medium": "oil on canvas",
+      "theme": "hunting",
+      "broadTheme": "figure",
+      "style": "Realist",
+      "broadStyle": "Realism",
+      "keywords": ["Dog", "Hunter", "Water"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p26/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p26/240/200"
     },
     {
       "id": "p27",
-      "title": "Arranjo em cinza e preto nº 1",
-      "artist": "James McNeill Whistler",
-      "year": 1871,
-      "style": "Realismo",
-      "museum": "Musée d'Orsay",
-      "nationality": "Estadunidense",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Whistlers_Mother_high_res.jpg/800px-Whistlers_Mother_high_res.jpg"
+      "title": "Still Life with Apples and Peaches",
+      "artist": "Paul Cézanne",
+      "displayDate": "c. 1905",
+      "medium": "oil on canvas",
+      "theme": "fruit",
+      "broadTheme": "still life",
+      "style": "Post-Impressionist",
+      "broadStyle": "Post-Impressionism",
+      "keywords": ["Apple", "Peach", "Table"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p27/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p27/240/200"
     },
     {
       "id": "p28",
-      "title": "O mundo de Christina",
-      "artist": "Andrew Wyeth",
-      "year": 1948,
-      "style": "Realismo",
-      "museum": "MoMA",
-      "nationality": "Estadunidense",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/en/a/a2/Christinasworld.jpg"
+      "title": "Still Life: Peaches, Plums, and Grapes",
+      "artist": "James Peale",
+      "displayDate": "1813",
+      "medium": "oil on panel",
+      "theme": "fruit",
+      "broadTheme": "still life",
+      "style": "",
+      "broadStyle": "",
+      "keywords": ["Peach", "Plum", "Grape"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p28/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p28/240/200"
     },
     {
       "id": "p29",
-      "title": "A liberdade guiando o povo",
-      "artist": "Eugène Delacroix",
-      "year": 1830,
-      "style": "Romantismo",
-      "museum": "Museu do Louvre",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Eugène_Delacroix_-_La_liberté_guidant_le_peuple.jpg/800px-Eugène_Delacroix_-_La_liberté_guidant_le_peuple.jpg"
+      "title": "Vase of Flowers",
+      "artist": "Jan Davidsz de Heem",
+      "displayDate": "c. 1670",
+      "medium": "oil on canvas",
+      "theme": "flowers",
+      "broadTheme": "still life",
+      "style": "Baroque",
+      "broadStyle": "Baroque",
+      "keywords": ["Flower", "Vase", "Insect"],
+      "school": "Dutch",
+      "imageUrl": "https://picsum.photos/seed/nga-p29/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p29/240/200"
     },
     {
       "id": "p30",
-      "title": "O viajante sobre o mar de névoa",
-      "artist": "Caspar David Friedrich",
-      "year": 1818,
-      "style": "Romantismo",
-      "museum": "Hamburger Kunsthalle",
-      "nationality": "Alemã",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/800px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg"
+      "title": "Fruit and Flowers",
+      "artist": "William Michael Harnett",
+      "displayDate": "1866",
+      "medium": "oil on canvas",
+      "theme": "fruit and flowers",
+      "broadTheme": "still life",
+      "style": "",
+      "broadStyle": "",
+      "keywords": ["Fruit", "Flower"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p30/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p30/240/200"
     },
     {
       "id": "p31",
-      "title": "O carro de feno",
-      "artist": "John Constable",
-      "year": 1821,
-      "style": "Romantismo",
-      "museum": "National Gallery",
-      "nationality": "Britânica",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/The_Hay_Wain_by_John_Constable.jpg/800px-The_Hay_Wain_by_John_Constable.jpg"
+      "title": "Rouen Cathedral, West Façade",
+      "artist": "Claude Monet",
+      "displayDate": "1894",
+      "medium": "oil on canvas",
+      "theme": "architecture",
+      "broadTheme": "landscape",
+      "style": "Impressionist",
+      "broadStyle": "Impressionism",
+      "keywords": ["Cathedral", "Light"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p31/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p31/240/200"
     },
     {
       "id": "p32",
-      "title": "Chuva, vapor e velocidade",
-      "artist": "J. M. W. Turner",
-      "year": 1844,
-      "style": "Romantismo",
-      "museum": "National Gallery",
-      "nationality": "Britânica",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Rain_Steam_and_Speed_the_Great_Western_Railway.jpg/800px-Rain_Steam_and_Speed_the_Great_Western_Railway.jpg"
+      "title": "Pont Neuf, Paris",
+      "artist": "Auguste Renoir",
+      "displayDate": "1872",
+      "medium": "oil on canvas",
+      "theme": "city view",
+      "broadTheme": "landscape",
+      "style": "Impressionist",
+      "broadStyle": "Impressionism",
+      "keywords": ["Bridge", "Paris", "Street"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p32/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p32/240/200"
     },
     {
       "id": "p33",
-      "title": "O jardim das delícias terrenas",
-      "artist": "Hieronymus Bosch",
-      "year": 1505,
-      "style": "Renascimento",
-      "museum": "Museu do Prado",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg/800px-The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg"
+      "title": "The Railway",
+      "artist": "Édouard Manet",
+      "displayDate": "1873",
+      "medium": "oil on canvas",
+      "theme": "modern life",
+      "broadTheme": "figure",
+      "style": "Impressionist",
+      "broadStyle": "Impressionism",
+      "keywords": ["Railway", "Child", "Fence"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p33/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p33/240/200"
     },
     {
       "id": "p34",
-      "title": "A ronda noturna",
-      "artist": "Rembrandt",
-      "year": 1642,
-      "style": "Barroco",
-      "museum": "Rijksmuseum",
-      "nationality": "Neerlandesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/The_Night_Watch_-_HD.jpg/800px-The_Night_Watch_-_HD.jpg"
+      "title": "Farmhouse in Provence",
+      "artist": "Vincent van Gogh",
+      "displayDate": "1888",
+      "medium": "oil on canvas",
+      "theme": "rural landscape",
+      "broadTheme": "landscape",
+      "style": "Post-Impressionist",
+      "broadStyle": "Post-Impressionism",
+      "keywords": ["Farm", "Tree"],
+      "school": "Dutch",
+      "imageUrl": "https://picsum.photos/seed/nga-p34/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p34/240/200"
     },
     {
       "id": "p35",
-      "title": "Judite decapitando Holofernes",
-      "artist": "Artemisia Gentileschi",
-      "year": 1620,
-      "style": "Barroco",
-      "museum": "Galleria degli Uffizi",
-      "nationality": "Italiana",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_WGA8563.jpg/800px-Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_WGA8563.jpg"
+      "title": "Breton Girls Dancing, Pont-Aven",
+      "artist": "Paul Gauguin",
+      "displayDate": "1888",
+      "medium": "oil on canvas",
+      "theme": "dance",
+      "broadTheme": "figure",
+      "style": "Post-Impressionist",
+      "broadStyle": "Post-Impressionism",
+      "keywords": ["Dancing", "Girl"],
+      "school": "French",
+      "imageUrl": "https://picsum.photos/seed/nga-p35/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p35/240/200"
     },
     {
       "id": "p36",
-      "title": "O balanço",
-      "artist": "Jean-Honoré Fragonard",
-      "year": 1767,
-      "style": "Rococó",
-      "museum": "Wallace Collection",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Fragonard%2C_The_Swing.jpg/800px-Fragonard%2C_The_Swing.jpg"
+      "title": "Family of Saltimbanques",
+      "artist": "Pablo Picasso",
+      "displayDate": "1905",
+      "medium": "oil on canvas",
+      "theme": "performers",
+      "broadTheme": "figure",
+      "style": "Rose Period",
+      "broadStyle": "Modernism",
+      "keywords": ["Circus", "Family"],
+      "school": "Spanish",
+      "imageUrl": "https://picsum.photos/seed/nga-p36/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p36/240/200"
     },
     {
       "id": "p37",
-      "title": "O juramento dos Horácios",
-      "artist": "Jacques-Louis David",
-      "year": 1784,
-      "style": "Neoclassicismo",
-      "museum": "Museu do Louvre",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/David-Oath_of_the_Horatii-1784.jpg/800px-David-Oath_of_the_Horatii-1784.jpg"
+      "title": "The Sacrament of the Last Supper",
+      "artist": "Salvador Dalí",
+      "displayDate": "1955",
+      "medium": "oil on canvas",
+      "theme": "Last Supper",
+      "broadTheme": "religious",
+      "style": "Surrealist",
+      "broadStyle": "Modernism",
+      "keywords": ["Christ", "Apostle"],
+      "school": "Spanish",
+      "imageUrl": "https://picsum.photos/seed/nga-p37/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p37/240/200"
     },
     {
       "id": "p38",
-      "title": "Olympia",
-      "artist": "Édouard Manet",
-      "year": 1863,
-      "style": "Realismo",
-      "museum": "Musée d'Orsay",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg/800px-Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg"
+      "title": "Lavender Mist (Number 1, 1950)",
+      "artist": "Jackson Pollock",
+      "displayDate": "1950",
+      "medium": "oil, enamel, and aluminum on canvas",
+      "theme": "abstraction",
+      "broadTheme": "abstract",
+      "style": "Abstract Expressionist",
+      "broadStyle": "Modernism",
+      "keywords": ["Drip"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p38/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p38/240/200"
     },
     {
       "id": "p39",
-      "title": "Os jogadores de cartas",
-      "artist": "Paul Cézanne",
-      "year": 1892,
-      "style": "Pós-impressionismo",
-      "museum": "Musée d'Orsay",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Les_Joueurs_de_cartes%2C_par_Paul_Cézanne.jpg/800px-Les_Joueurs_de_cartes%2C_par_Paul_Cézanne.jpg"
+      "title": "Homage to the Square: Green Frame",
+      "artist": "Josef Albers",
+      "displayDate": "1963",
+      "medium": "oil on fiberboard",
+      "theme": "geometric abstraction",
+      "broadTheme": "abstract",
+      "style": "",
+      "broadStyle": "Modernism",
+      "keywords": ["Square", "Color"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p39/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p39/240/200"
     },
     {
       "id": "p40",
-      "title": "Tarde de domingo na ilha de Grande Jatte",
-      "artist": "Georges Seurat",
-      "year": 1886,
-      "style": "Pós-impressionismo",
-      "museum": "Art Institute of Chicago",
-      "nationality": "Francesa",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_--_1884_-_Google_Art_Project.jpg/800px-Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_--_1884_-_Google_Art_Project.jpg"
+      "title": "Cape Cod Evening",
+      "artist": "Edward Hopper",
+      "displayDate": "1939",
+      "medium": "oil on canvas",
+      "theme": "rural scene",
+      "broadTheme": "landscape",
+      "style": "American Realist",
+      "broadStyle": "Realism",
+      "keywords": ["House", "Dog", "Trees"],
+      "school": "American",
+      "imageUrl": "https://picsum.photos/seed/nga-p40/900/760",
+      "thumbUrl": "https://picsum.photos/seed/nga-p40/240/200"
     }
   ],
   "users": [
@@ -406,571 +606,1187 @@
       "id": "u01",
       "name": "Usuário 01",
       "ratings": [
-        { "paintingId": "p01", "rating": 5 },
-        { "paintingId": "p02", "rating": 5 },
-        { "paintingId": "p05", "rating": 4 },
-        { "paintingId": "p22", "rating": 1 },
-        { "paintingId": "p18", "rating": 2 }
-      ]
+        {
+          "paintingId": "p05",
+          "rating": 5
+        },
+        {
+          "paintingId": "p06",
+          "rating": 4
+        },
+        {
+          "paintingId": "p31",
+          "rating": 5
+        },
+        {
+          "paintingId": "p16",
+          "rating": 1
+        },
+        {
+          "paintingId": "p38",
+          "rating": 2
+        }
+      ],
+      "selectedCategories": {
+        "styles": [
+          {
+            "value": "Impressionism",
+            "weight": 2
+          }
+        ],
+        "themes": [
+          {
+            "value": "landscape",
+            "weight": 2
+          }
+        ],
+        "schools": [
+          {
+            "value": "French",
+            "weight": 1
+          }
+        ],
+        "artists": [
+          {
+            "value": "Claude Monet",
+            "weight": 2
+          }
+        ]
+      }
     },
     {
       "id": "u02",
       "name": "Usuário 02",
       "ratings": [
-        { "paintingId": "p09", "rating": 5 },
-        { "paintingId": "p10", "rating": 5 },
-        { "paintingId": "p34", "rating": 4 },
-        { "paintingId": "p03", "rating": 2 },
-        { "paintingId": "p19", "rating": 1 }
+        {
+          "paintingId": "p01",
+          "rating": 5
+        },
+        {
+          "paintingId": "p02",
+          "rating": 4
+        },
+        {
+          "paintingId": "p08",
+          "rating": 5
+        },
+        {
+          "paintingId": "p38",
+          "rating": 1
+        },
+        {
+          "paintingId": "p40",
+          "rating": 2
+        }
       ]
     },
     {
       "id": "u03",
       "name": "Usuário 03",
       "ratings": [
-        { "paintingId": "p20", "rating": 5 },
-        { "paintingId": "p21", "rating": 5 },
-        { "paintingId": "p24", "rating": 4 },
-        { "paintingId": "p12", "rating": 2 },
-        { "paintingId": "p15", "rating": 1 }
+        {
+          "paintingId": "p10",
+          "rating": 5
+        },
+        {
+          "paintingId": "p12",
+          "rating": 4
+        },
+        {
+          "paintingId": "p19",
+          "rating": 5
+        },
+        {
+          "paintingId": "p27",
+          "rating": 2
+        },
+        {
+          "paintingId": "p28",
+          "rating": 1
+        }
       ]
     },
     {
       "id": "u04",
       "name": "Usuário 04",
       "ratings": [
-        { "paintingId": "p29", "rating": 5 },
-        { "paintingId": "p30", "rating": 5 },
-        { "paintingId": "p31", "rating": 4 },
-        { "paintingId": "p17", "rating": 2 },
-        { "paintingId": "p25", "rating": 1 }
+        {
+          "paintingId": "p23",
+          "rating": 5
+        },
+        {
+          "paintingId": "p24",
+          "rating": 5
+        },
+        {
+          "paintingId": "p25",
+          "rating": 4
+        },
+        {
+          "paintingId": "p11",
+          "rating": 2
+        },
+        {
+          "paintingId": "p29",
+          "rating": 1
+        }
       ]
     },
     {
       "id": "u05",
       "name": "Usuário 05",
       "ratings": [
-        { "paintingId": "p13", "rating": 5 },
-        { "paintingId": "p14", "rating": 5 },
-        { "paintingId": "p15", "rating": 4 },
-        { "paintingId": "p26", "rating": 2 },
-        { "paintingId": "p28", "rating": 1 }
+        {
+          "paintingId": "p27",
+          "rating": 5
+        },
+        {
+          "paintingId": "p28",
+          "rating": 4
+        },
+        {
+          "paintingId": "p29",
+          "rating": 5
+        },
+        {
+          "paintingId": "p04",
+          "rating": 2
+        },
+        {
+          "paintingId": "p20",
+          "rating": 1
+        }
       ]
     }
   ],
   "recommendations": {
     "u01": [
       {
-        "paintingId": "p06",
-        "score": 0.91,
-        "matchedFeatures": [
-          { "name": "Estilo: Impressionismo", "contribution": 0.34 },
-          { "name": "Nacionalidade: Francesa", "contribution": 0.22 },
-          { "name": "Período: século XIX", "contribution": 0.14 }
-        ],
-        "mostSimilarHistoryItemId": "p05",
-        "similarityToHistoryItem": 0.89
-      },
-      {
-        "paintingId": "p39",
+        "paintingId": "p32",
         "score": 0.87,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.27 },
-          { "name": "Período: século XIX", "contribution": 0.23 },
-          { "name": "Museu: Musée d'Orsay", "contribution": 0.12 }
+          {
+            "name": "Tema: landscape",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Impressionism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Impressionist",
+            "type": "style",
+            "contribution": 0.13,
+            "origin": "history"
+          }
         ],
         "mostSimilarHistoryItemId": "p05",
-        "similarityToHistoryItem": 0.84
+        "similarityToHistoryItem": 0.59
       },
       {
-        "paintingId": "p40",
-        "score": 0.84,
-        "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.25 },
-          { "name": "Paleta: luminosa", "contribution": 0.21 },
-          { "name": "Período: século XIX", "contribution": 0.15 }
-        ],
-        "mostSimilarHistoryItemId": "p01",
-        "similarityToHistoryItem": 0.81
-      },
-      {
-        "paintingId": "p07",
+        "paintingId": "p33",
         "score": 0.81,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.28 },
-          { "name": "Período: século XIX", "contribution": 0.2 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Impressionism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Impressionist",
+            "type": "style",
+            "contribution": 0.13,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p05",
-        "similarityToHistoryItem": 0.78
-      },
-      {
-        "paintingId": "p38",
-        "score": 0.79,
-        "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.26 },
-          { "name": "Museu: Musée d'Orsay", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p05",
-        "similarityToHistoryItem": 0.76
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.47
       },
       {
         "paintingId": "p03",
-        "score": 0.76,
+        "score": 0.7,
         "matchedFeatures": [
-          { "name": "Paleta: expressiva", "contribution": 0.25 },
-          { "name": "Período: século XIX", "contribution": 0.18 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Palavra-chave: Standing",
+            "type": "keyword",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p02",
-        "similarityToHistoryItem": 0.74
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.27
       },
       {
-        "paintingId": "p04",
-        "score": 0.73,
+        "paintingId": "p18",
+        "score": 0.7,
         "matchedFeatures": [
-          { "name": "Natureza", "contribution": 0.24 },
-          { "name": "Período: século XIX", "contribution": 0.19 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p02",
-        "similarityToHistoryItem": 0.72
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.27
       },
       {
-        "paintingId": "p32",
+        "paintingId": "p35",
         "score": 0.69,
         "matchedFeatures": [
-          { "name": "Paisagem atmosférica", "contribution": 0.22 },
-          { "name": "Período: século XIX", "contribution": 0.17 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p01",
-        "similarityToHistoryItem": 0.7
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.25
       },
       {
-        "paintingId": "p36",
-        "score": 0.66,
-        "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.25 },
-          { "name": "Cena social", "contribution": 0.13 }
-        ],
-        "mostSimilarHistoryItemId": "p05",
-        "similarityToHistoryItem": 0.67
-      },
-      {
-        "paintingId": "p31",
+        "paintingId": "p11",
         "score": 0.63,
         "matchedFeatures": [
-          { "name": "Paisagem", "contribution": 0.24 },
-          { "name": "Luz natural", "contribution": 0.14 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p01",
-        "similarityToHistoryItem": 0.64
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p12",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p06",
+        "similarityToHistoryItem": 0.13
+      },
+      {
+        "paintingId": "p17",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p05",
+        "similarityToHistoryItem": 0.13
+      },
+      {
+        "paintingId": "p19",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p05",
+        "similarityToHistoryItem": 0.12
+      },
+      {
+        "paintingId": "p24",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Tema: landscape",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p05",
+        "similarityToHistoryItem": 0.12
       }
     ],
     "u02": [
       {
-        "paintingId": "p36",
-        "score": 0.93,
+        "paintingId": "p04",
+        "score": 0.83,
         "matchedFeatures": [
-          { "name": "Figura e interior", "contribution": 0.36 },
-          { "name": "Tradição europeia", "contribution": 0.26 }
+          {
+            "name": "Tema: religious",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: Italian",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p09",
-        "similarityToHistoryItem": 0.9
-      },
-      {
-        "paintingId": "p35",
-        "score": 0.86,
-        "matchedFeatures": [
-          { "name": "Estilo: Barroco", "contribution": 0.38 },
-          { "name": "Período: século XVII", "contribution": 0.19 }
-        ],
-        "mostSimilarHistoryItemId": "p10",
-        "similarityToHistoryItem": 0.82
-      },
-      {
-        "paintingId": "p11",
-        "score": 0.82,
-        "matchedFeatures": [
-          { "name": "Estilo: Barroco", "contribution": 0.35 },
-          { "name": "Retrato e figura", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p09",
-        "similarityToHistoryItem": 0.8
-      },
-      {
-        "paintingId": "p33",
-        "score": 0.78,
-        "matchedFeatures": [
-          { "name": "Nacionalidade: Neerlandesa", "contribution": 0.3 },
-          { "name": "Detalhamento", "contribution": 0.16 }
-        ],
-        "mostSimilarHistoryItemId": "p10",
-        "similarityToHistoryItem": 0.74
+        "mostSimilarHistoryItemId": "p02",
+        "similarityToHistoryItem": 0.51
       },
       {
         "paintingId": "p13",
+        "score": 0.83,
+        "matchedFeatures": [
+          {
+            "name": "Tema: religious",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: Italian",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Palavra-chave: Christ Child",
+            "type": "keyword",
+            "contribution": 0.13,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p08",
+        "similarityToHistoryItem": 0.5
+      },
+      {
+        "paintingId": "p09",
+        "score": 0.79,
+        "matchedFeatures": [
+          {
+            "name": "Tema: religious",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Palavra-chave: Angel",
+            "type": "keyword",
+            "contribution": 0.19,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p01",
+        "similarityToHistoryItem": 0.43
+      },
+      {
+        "paintingId": "p07",
         "score": 0.75,
         "matchedFeatures": [
-          { "name": "Retrato", "contribution": 0.27 },
-          { "name": "Paleta: terrosa", "contribution": 0.18 }
+          {
+            "name": "Escola: Italian",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p09",
-        "similarityToHistoryItem": 0.71
+        "mostSimilarHistoryItemId": "p02",
+        "similarityToHistoryItem": 0.37
+      },
+      {
+        "paintingId": "p14",
+        "score": 0.72,
+        "matchedFeatures": [
+          {
+            "name": "Escola: Venetian",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p01",
+        "similarityToHistoryItem": 0.31
       },
       {
         "paintingId": "p15",
         "score": 0.72,
         "matchedFeatures": [
-          { "name": "Composição figurativa", "contribution": 0.26 },
-          { "name": "Acervo clássico", "contribution": 0.16 }
+          {
+            "name": "Escola: Venetian",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p34",
-        "similarityToHistoryItem": 0.69
+        "mostSimilarHistoryItemId": "p01",
+        "similarityToHistoryItem": 0.31
       },
       {
-        "paintingId": "p27",
-        "score": 0.69,
+        "paintingId": "p17",
+        "score": 0.64,
         "matchedFeatures": [
-          { "name": "Retrato", "contribution": 0.29 },
-          { "name": "Interior", "contribution": 0.14 }
+          {
+            "name": "Tema: religious",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p10",
-        "similarityToHistoryItem": 0.67
+        "mostSimilarHistoryItemId": "p02",
+        "similarityToHistoryItem": 0.17
       },
       {
-        "paintingId": "p07",
-        "score": 0.65,
+        "paintingId": "p16",
+        "score": 0.64,
         "matchedFeatures": [
-          { "name": "Cena figurativa", "contribution": 0.22 },
-          { "name": "Paleta: terrosa", "contribution": 0.15 }
+          {
+            "name": "Estilo: Renaissance",
+            "type": "style",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p34",
-        "similarityToHistoryItem": 0.63
-      },
-      {
-        "paintingId": "p25",
-        "score": 0.62,
-        "matchedFeatures": [
-          { "name": "Retrato duplo", "contribution": 0.2 },
-          { "name": "Detalhamento", "contribution": 0.16 }
-        ],
-        "mostSimilarHistoryItemId": "p09",
-        "similarityToHistoryItem": 0.6
+        "mostSimilarHistoryItemId": "p02",
+        "similarityToHistoryItem": 0.16
       },
       {
         "paintingId": "p37",
-        "score": 0.59,
+        "score": 0.64,
         "matchedFeatures": [
-          { "name": "Composição figurativa", "contribution": 0.23 },
-          { "name": "Narrativa histórica", "contribution": 0.14 }
+          {
+            "name": "Tema: religious",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p34",
-        "similarityToHistoryItem": 0.58
+        "mostSimilarHistoryItemId": "p02",
+        "similarityToHistoryItem": 0.16
+      },
+      {
+        "paintingId": "p23",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Palavra-chave: Angel",
+            "type": "keyword",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p01",
+        "similarityToHistoryItem": 0.14
       }
     ],
     "u03": [
       {
+        "paintingId": "p11",
+        "score": 0.89,
+        "matchedFeatures": [
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Artista: Johannes Vermeer",
+            "type": "artist",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.13,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p12",
+        "similarityToHistoryItem": 0.62
+      },
+      {
+        "paintingId": "p21",
+        "score": 0.79,
+        "matchedFeatures": [
+          {
+            "name": "Tema: portrait",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Tema: male portrait",
+            "type": "theme",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Neoclassicism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p19",
+        "similarityToHistoryItem": 0.43
+      },
+      {
         "paintingId": "p22",
-        "score": 0.9,
+        "score": 0.71,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Espanhola", "contribution": 0.25 },
-          { "name": "Vanguarda moderna", "contribution": 0.23 }
+          {
+            "name": "Tema: portrait",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Tema: male portrait",
+            "type": "theme",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p20",
-        "similarityToHistoryItem": 0.86
+        "mostSimilarHistoryItemId": "p10",
+        "similarityToHistoryItem": 0.29
       },
       {
-        "paintingId": "p23",
-        "score": 0.88,
+        "paintingId": "p29",
+        "score": 0.71,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Espanhola", "contribution": 0.27 },
-          { "name": "Vanguarda moderna", "contribution": 0.22 }
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p20",
-        "similarityToHistoryItem": 0.84
+        "mostSimilarHistoryItemId": "p10",
+        "similarityToHistoryItem": 0.29
       },
       {
-        "paintingId": "p16",
-        "score": 0.82,
+        "paintingId": "p07",
+        "score": 0.64,
         "matchedFeatures": [
-          { "name": "Expressão psicológica", "contribution": 0.31 },
-          { "name": "Século XX", "contribution": 0.17 }
+          {
+            "name": "Tema: portrait",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p24",
-        "similarityToHistoryItem": 0.79
-      },
-      {
-        "paintingId": "p18",
-        "score": 0.78,
-        "matchedFeatures": [
-          { "name": "Vanguarda moderna", "contribution": 0.29 },
-          { "name": "Cor expressiva", "contribution": 0.18 }
-        ],
-        "mostSimilarHistoryItemId": "p20",
-        "similarityToHistoryItem": 0.74
-      },
-      {
-        "paintingId": "p19",
-        "score": 0.75,
-        "matchedFeatures": [
-          { "name": "Geometria", "contribution": 0.25 },
-          { "name": "Século XX", "contribution": 0.19 }
-        ],
-        "mostSimilarHistoryItemId": "p20",
-        "similarityToHistoryItem": 0.72
+        "mostSimilarHistoryItemId": "p10",
+        "similarityToHistoryItem": 0.17
       },
       {
         "paintingId": "p17",
-        "score": 0.72,
+        "score": 0.63,
         "matchedFeatures": [
-          { "name": "Simbolismo", "contribution": 0.26 },
-          { "name": "Século XX", "contribution": 0.17 }
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p24",
-        "similarityToHistoryItem": 0.68
+        "mostSimilarHistoryItemId": "p10",
+        "similarityToHistoryItem": 0.15
+      },
+      {
+        "paintingId": "p34",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p10",
+        "similarityToHistoryItem": 0.14
       },
       {
         "paintingId": "p03",
-        "score": 0.69,
-        "matchedFeatures": [
-          { "name": "Expressão psicológica", "contribution": 0.24 },
-          { "name": "Cor intensa", "contribution": 0.18 }
-        ],
-        "mostSimilarHistoryItemId": "p24",
-        "similarityToHistoryItem": 0.66
-      },
-      {
-        "paintingId": "p25",
-        "score": 0.66,
-        "matchedFeatures": [
-          { "name": "Século XX", "contribution": 0.2 },
-          { "name": "Retrato simbólico", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p24",
-        "similarityToHistoryItem": 0.64
-      },
-      {
-        "paintingId": "p26",
         "score": 0.63,
         "matchedFeatures": [
-          { "name": "Século XX", "contribution": 0.21 },
-          { "name": "Atmosfera enigmática", "contribution": 0.16 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p20",
-        "similarityToHistoryItem": 0.61
+        "mostSimilarHistoryItemId": "p12",
+        "similarityToHistoryItem": 0.14
       },
       {
-        "paintingId": "p28",
-        "score": 0.6,
+        "paintingId": "p18",
+        "score": 0.63,
         "matchedFeatures": [
-          { "name": "Século XX", "contribution": 0.2 },
-          { "name": "Narrativa ambígua", "contribution": 0.14 }
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p21",
-        "similarityToHistoryItem": 0.59
+        "mostSimilarHistoryItemId": "p12",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p06",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Tema: figure",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p12",
+        "similarityToHistoryItem": 0.13
       }
     ],
     "u04": [
       {
-        "paintingId": "p32",
-        "score": 0.92,
-        "matchedFeatures": [
-          { "name": "Estilo: Romantismo", "contribution": 0.38 },
-          { "name": "Paisagem", "contribution": 0.22 }
-        ],
-        "mostSimilarHistoryItemId": "p30",
-        "similarityToHistoryItem": 0.89
-      },
-      {
-        "paintingId": "p39",
-        "score": 0.89,
-        "matchedFeatures": [
-          { "name": "Paisagem e natureza", "contribution": 0.37 },
-          { "name": "Nacionalidade: Francesa", "contribution": 0.24 }
-        ],
-        "mostSimilarHistoryItemId": "p29",
-        "similarityToHistoryItem": 0.86
-      },
-      {
-        "paintingId": "p16",
-        "score": 0.81,
-        "matchedFeatures": [
-          { "name": "Dramaticidade", "contribution": 0.27 },
-          { "name": "Norte europeu", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p30",
-        "similarityToHistoryItem": 0.78
-      },
-      {
-        "paintingId": "p08",
-        "score": 0.77,
-        "matchedFeatures": [
-          { "name": "Natureza sublime", "contribution": 0.3 },
-          { "name": "Movimento", "contribution": 0.16 }
-        ],
-        "mostSimilarHistoryItemId": "p32",
-        "similarityToHistoryItem": 0.74
-      },
-      {
         "paintingId": "p03",
-        "score": 0.74,
+        "score": 0.83,
         "matchedFeatures": [
-          { "name": "Paisagem expressiva", "contribution": 0.28 },
-          { "name": "Céu dramático", "contribution": 0.18 }
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Artista: Winslow Homer",
+            "type": "artist",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Realism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Realist",
+            "type": "style",
+            "contribution": 0.13,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p30",
-        "similarityToHistoryItem": 0.72
+        "mostSimilarHistoryItemId": "p25",
+        "similarityToHistoryItem": 0.5
       },
       {
-        "paintingId": "p37",
-        "score": 0.7,
+        "paintingId": "p26",
+        "score": 0.79,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.21 },
-          { "name": "Narrativa heroica", "contribution": 0.18 }
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Artista: Winslow Homer",
+            "type": "artist",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Realism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Realist",
+            "type": "style",
+            "contribution": 0.13,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p29",
-        "similarityToHistoryItem": 0.67
+        "mostSimilarHistoryItemId": "p25",
+        "similarityToHistoryItem": 0.44
       },
       {
-        "paintingId": "p01",
-        "score": 0.68,
+        "paintingId": "p22",
+        "score": 0.76,
         "matchedFeatures": [
-          { "name": "Paisagem atmosférica", "contribution": 0.26 },
-          { "name": "Nacionalidade: Francesa", "contribution": 0.16 }
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Romanticism",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Romantic",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p29",
-        "similarityToHistoryItem": 0.65
+        "mostSimilarHistoryItemId": "p24",
+        "similarityToHistoryItem": 0.38
+      },
+      {
+        "paintingId": "p20",
+        "score": 0.73,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Palavra-chave: Boat",
+            "type": "keyword",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Palavra-chave: Sea",
+            "type": "keyword",
+            "contribution": 0.19,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p25",
+        "similarityToHistoryItem": 0.33
       },
       {
         "paintingId": "p40",
-        "score": 0.65,
+        "score": 0.73,
         "matchedFeatures": [
-          { "name": "Paisagem", "contribution": 0.23 },
-          { "name": "Nacionalidade: Francesa", "contribution": 0.17 }
+          {
+            "name": "Tema: landscape",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Realism",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p29",
-        "similarityToHistoryItem": 0.62
+        "mostSimilarHistoryItemId": "p25",
+        "similarityToHistoryItem": 0.33
       },
       {
-        "paintingId": "p36",
+        "paintingId": "p21",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p24",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p30",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p24",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p01",
         "score": 0.62,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Francesa", "contribution": 0.24 },
-          { "name": "Período histórico", "contribution": 0.13 }
+          {
+            "name": "Palavra-chave: Angel",
+            "type": "keyword",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p29",
-        "similarityToHistoryItem": 0.59
+        "mostSimilarHistoryItemId": "p23",
+        "similarityToHistoryItem": 0.14
       },
       {
-        "paintingId": "p33",
-        "score": 0.58,
+        "paintingId": "p28",
+        "score": 0.62,
         "matchedFeatures": [
-          { "name": "Paisagem simbólica", "contribution": 0.2 },
-          { "name": "Narrativa", "contribution": 0.14 }
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p30",
-        "similarityToHistoryItem": 0.57
+        "mostSimilarHistoryItemId": "p24",
+        "similarityToHistoryItem": 0.13
+      },
+      {
+        "paintingId": "p38",
+        "score": 0.62,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p24",
+        "similarityToHistoryItem": 0.13
       }
     ],
     "u05": [
       {
-        "paintingId": "p12",
-        "score": 0.94,
-        "matchedFeatures": [
-          { "name": "Estilo: Renascimento", "contribution": 0.4 },
-          { "name": "Nacionalidade: Italiana", "contribution": 0.25 }
-        ],
-        "mostSimilarHistoryItemId": "p13",
-        "similarityToHistoryItem": 0.92
-      },
-      {
-        "paintingId": "p33",
-        "score": 0.85,
-        "matchedFeatures": [
-          { "name": "Estilo: Renascimento", "contribution": 0.38 },
-          { "name": "Composição alegórica", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p15",
-        "similarityToHistoryItem": 0.82
-      },
-      {
         "paintingId": "p35",
-        "score": 0.81,
+        "score": 0.74,
         "matchedFeatures": [
-          { "name": "Nacionalidade: Italiana", "contribution": 0.29 },
-          { "name": "Figura humana", "contribution": 0.19 }
+          {
+            "name": "Escola: French",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Post-Impressionism",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Post-Impressionist",
+            "type": "style",
+            "contribution": 0.19,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p14",
-        "similarityToHistoryItem": 0.77
+        "mostSimilarHistoryItemId": "p27",
+        "similarityToHistoryItem": 0.35
       },
       {
-        "paintingId": "p11",
-        "score": 0.77,
+        "paintingId": "p30",
+        "score": 0.72,
         "matchedFeatures": [
-          { "name": "Composição de grupo", "contribution": 0.27 },
-          { "name": "Acervo clássico", "contribution": 0.18 }
+          {
+            "name": "Tema: still life",
+            "type": "theme",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p15",
-        "similarityToHistoryItem": 0.74
-      },
-      {
-        "paintingId": "p34",
-        "score": 0.73,
-        "matchedFeatures": [
-          { "name": "Composição de grupo", "contribution": 0.26 },
-          { "name": "Mestres antigos", "contribution": 0.17 }
-        ],
-        "mostSimilarHistoryItemId": "p15",
-        "similarityToHistoryItem": 0.7
-      },
-      {
-        "paintingId": "p37",
-        "score": 0.7,
-        "matchedFeatures": [
-          { "name": "Narrativa clássica", "contribution": 0.29 },
-          { "name": "Figura humana", "contribution": 0.16 }
-        ],
-        "mostSimilarHistoryItemId": "p14",
-        "similarityToHistoryItem": 0.68
-      },
-      {
-        "paintingId": "p09",
-        "score": 0.67,
-        "matchedFeatures": [
-          { "name": "Retrato", "contribution": 0.25 },
-          { "name": "Mestres antigos", "contribution": 0.16 }
-        ],
-        "mostSimilarHistoryItemId": "p13",
-        "similarityToHistoryItem": 0.65
+        "mostSimilarHistoryItemId": "p28",
+        "similarityToHistoryItem": 0.31
       },
       {
         "paintingId": "p10",
-        "score": 0.64,
+        "score": 0.71,
         "matchedFeatures": [
-          { "name": "Mestres antigos", "contribution": 0.24 },
-          { "name": "Luz naturalista", "contribution": 0.15 }
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p13",
-        "similarityToHistoryItem": 0.61
+        "mostSimilarHistoryItemId": "p29",
+        "similarityToHistoryItem": 0.29
       },
       {
-        "paintingId": "p29",
-        "score": 0.61,
+        "paintingId": "p11",
+        "score": 0.71,
         "matchedFeatures": [
-          { "name": "Narrativa histórica", "contribution": 0.23 },
-          { "name": "Figura humana", "contribution": 0.15 }
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p15",
-        "similarityToHistoryItem": 0.59
+        "mostSimilarHistoryItemId": "p29",
+        "similarityToHistoryItem": 0.29
       },
       {
-        "paintingId": "p36",
-        "score": 0.58,
+        "paintingId": "p12",
+        "score": 0.7,
         "matchedFeatures": [
-          { "name": "Composição clássica", "contribution": 0.21 },
-          { "name": "Figura humana", "contribution": 0.14 }
+          {
+            "name": "Escola: Dutch",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Baroque",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
         ],
-        "mostSimilarHistoryItemId": "p14",
-        "similarityToHistoryItem": 0.56
+        "mostSimilarHistoryItemId": "p29",
+        "similarityToHistoryItem": 0.27
+      },
+      {
+        "paintingId": "p34",
+        "score": 0.68,
+        "matchedFeatures": [
+          {
+            "name": "Estilo: Post-Impressionism",
+            "type": "style",
+            "contribution": 0.31,
+            "origin": "history"
+          },
+          {
+            "name": "Estilo: Post-Impressionist",
+            "type": "style",
+            "contribution": 0.25,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p27",
+        "similarityToHistoryItem": 0.24
+      },
+      {
+        "paintingId": "p21",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p28",
+        "similarityToHistoryItem": 0.15
+      },
+      {
+        "paintingId": "p03",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p28",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p38",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p28",
+        "similarityToHistoryItem": 0.14
+      },
+      {
+        "paintingId": "p39",
+        "score": 0.63,
+        "matchedFeatures": [
+          {
+            "name": "Escola: American",
+            "type": "school",
+            "contribution": 0.31,
+            "origin": "history"
+          }
+        ],
+        "mostSimilarHistoryItemId": "p28",
+        "similarityToHistoryItem": 0.14
       }
+    ]
+  },
+  "categories": {
+    "styles": [
+      "Renaissance",
+      "Baroque",
+      "Impressionism",
+      "Realism",
+      "Romanticism",
+      "Modernism",
+      "Post-Impressionism",
+      "Neoclassicism",
+      "Rococo",
+      "Impressionist",
+      "Realist",
+      "Post-Impressionist",
+      "Abstract Expressionist",
+      "Surrealist",
+      "Neoclassical"
+    ],
+    "themes": [
+      "religious",
+      "figure",
+      "landscape",
+      "portrait",
+      "still life",
+      "mythology",
+      "abstract",
+      "history"
+    ],
+    "schools": ["American", "French", "Italian", "Dutch", "Venetian", "Spanish", "Flemish"],
+    "artists": [
+      "Claude Monet",
+      "Winslow Homer",
+      "Johannes Vermeer",
+      "Leonardo da Vinci",
+      "Rembrandt van Rijn",
+      "Titian",
+      "Gilbert Stuart",
+      "Vincent van Gogh",
+      "Raphael",
+      "Pablo Picasso",
+      "Salvador Dalí",
+      "Edward Hopper",
+      "Paul Cézanne",
+      "Édouard Manet",
+      "Sandro Botticelli",
+      "Jackson Pollock"
     ]
   }
 }
