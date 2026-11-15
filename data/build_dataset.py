@@ -32,9 +32,8 @@ paint = objects[objects["classification"] == "Painting"][
     ["objectid", "title", "attribution", "displaydate", "medium",
      "beginyear", "endyear", "visualbrowsertimespan", "creditline", "locationid"]]
 
-img = images[(images["viewtype"] == "primary") & (images["openaccess"] == 1)]
-img = img.drop_duplicates("depictstmsobjectid")[
-    ["depictstmsobjectid", "iiifurl", "iiifthumburl", "assistivetext", "width", "height"]]
+img = images[images["viewtype"] == "primary"].drop_duplicates("depictstmsobjectid")
+img = img[["depictstmsobjectid", "iiifurl", "iiifthumburl", "assistivetext", "width", "height", "openaccess"]]
 df = paint.merge(img, left_on="objectid", right_on="depictstmsobjectid")
 
 # ---------- Termos (theme, style, keyword, school) ----------
