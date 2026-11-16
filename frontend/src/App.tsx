@@ -1,21 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import data from "./data/mockData.json";
-import {
-  PROFILE_ALPHA,
-  buildProfile,
-  buildTasteProfile,
-  recommend,
-  type CategoryGroup,
-  type Painting,
-  type Rating,
-  type Recommendation,
-  type SelectedCategories,
-} from "./recommender";
+import { useEffect, useRef, useState } from "react";
+import { api, paintingCache } from "./api";
+import type {
+  CategoryGroup,
+  Painting,
+  Rating,
+  Recommendation,
+  SelectedCategories,
+  TasteItem,
+  UserSummary,
+} from "./Types";
 
 type Mode = "existing" | "custom";
 
-const paintings = data.paintings as Painting[];
-const paintingMap = new Map(paintings.map((painting) => [painting.id, painting]));
+const paintingMap = paintingCache;
 const featureTypeLabels = {
   theme: "tema",
   style: "estilo",
@@ -118,10 +115,11 @@ function RatingControls({
 }
 
 function AttributeChips({ values, compact = false }: { values: string[]; compact?: boolean }) {
-  if (!values.length) return null;
+  const unique = [...new Set(values.filter(Boolean))];
+  if (!unique.length) return null;
   return (
     <div className={`subject-chips ${compact ? "compact" : ""}`}>
-      {values.map((value) => (
+      {unique.map((value) => (
         <span key={value}>{value}</span>
       ))}
     </div>
@@ -393,6 +391,7 @@ const emptyCategories = (): SelectedCategories => ({
 
 function CategoryOnboarding({
   selected,
+  catalog,
   onChange,
   variant,
   profileName = "",
@@ -401,6 +400,7 @@ function CategoryOnboarding({
   onCancel,
 }: {
   selected: SelectedCategories;
+  catalog: Record<CategoryGroup, string[]>;
   onChange: (value: SelectedCategories) => void;
   variant: "create" | "adjust";
   profileName?: string;
@@ -428,9 +428,24 @@ function CategoryOnboarding({
       : [...selected[group], { value, weight: 1 as const }];
     onChange({ ...selected, [group]: nextGroup });
   };
-  const matchingArtists = data.categories.artists
-    .filter((artist) => artist.toLocaleLowerCase().includes(artistQuery.toLocaleLowerCase()))
-    .slice(0, 5);
+  const [matchingArtists, setMatchingArtists] = useState<string[]>([]);
+  useEffect(() => {
+    if (!artistQuery.trim()) {
+      setMatchingArtists([]);
+      return;
+    }
+    let cancelled = false;
+    const timeout = window.setTimeout(() => {
+      api
+        .searchArtists(artistQuery)
+        .then((names) => !cancelled && setMatchingArtists(names))
+        .catch(() => !cancelled && setMatchingArtists([]));
+    }, 200);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeout);
+    };
+  }, [artistQuery]);
 
   return (
     <div className="onboarding" aria-labelledby="onboarding-title">
@@ -494,7 +509,7 @@ function CategoryOnboarding({
             </div>
           )}
           <div className="category-chips">
-            {data.categories[group]
+            {catalog[group]
               .slice(0, expandedGroups.includes(group) ? undefined : group === "artists" ? 8 : 10)
               .map((value) => {
                 const choice = selected[group].find((item) => item.value === value);
@@ -523,7 +538,7 @@ function CategoryOnboarding({
                 );
               })}
           </div>
-          {data.categories[group].length > (group === "artists" ? 8 : 10) && (
+          {catalog[group].length > (group === "artists" ? 8 : 10) && (
             <button
               type="button"
               className="show-more-button"
@@ -564,57 +579,46 @@ function CategoryOnboarding({
   );
 }
 
-type CreatedProfile = {
-  id: string;
-  name: string;
-  selectedCategories: SelectedCategories;
-  createdByUser: true;
-};
+const STORAGE_KEY = "galeria-sugerida:created-profiles-v2";
 
-type PersistedGalleryState = {
-  createdProfiles: CreatedProfile[];
-  ratingsByUser: Record<string, Rating[]>;
-  categoryOverrides: Record<string, SelectedCategories>;
-};
-
-const STORAGE_KEY = "galeria-sugerida:profiles-v1";
-
-function readPersistedState(): PersistedGalleryState {
-  const fallback: PersistedGalleryState = {
-    createdProfiles: [],
-    ratingsByUser: {},
-    categoryOverrides: {},
-  };
-  if (typeof window === "undefined") return fallback;
+/** Só guardamos no navegador quais perfis foram criados aqui (para o selo "Criado por você"). */
+function readCreatedIds(): string[] {
   try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    return stored ? { ...fallback, ...JSON.parse(stored) } : fallback;
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "[]");
+    return Array.isArray(parsed) ? parsed.map(String) : [];
   } catch {
-    return fallback;
+    return [];
   }
 }
 
+const errorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : "Erro inesperado ao falar com a API.";
+
 function App() {
-  const initialPersisted = useRef(readPersistedState()).current;
   const [mode, setMode] = useState<Mode>("existing");
-  const [userId, setUserId] = useState("u01");
+  const [users, setUsers] = useState<UserSummary[]>([]);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [userId, setUserId] = useState("");
   const [count, setCount] = useState<5 | 10>(5);
   const [diversify, setDiversify] = useState(false);
-  const [createdProfiles, setCreatedProfiles] = useState<CreatedProfile[]>(
-    initialPersisted.createdProfiles,
-  );
-  const [categoryOverrides, setCategoryOverrides] = useState<Record<string, SelectedCategories>>(
-    initialPersisted.categoryOverrides,
-  );
-  const [ratingsByUser, setRatingsByUser] = useState<Record<string, Rating[]>>(() => ({
-    ...Object.fromEntries(data.users.map((user) => [user.id, [...user.ratings]])),
-    ...initialPersisted.ratingsByUser,
-  }));
+  const [createdIds, setCreatedIds] = useState<string[]>(readCreatedIds);
+  const [catalog, setCatalog] = useState<Record<CategoryGroup, string[]>>({
+    styles: [],
+    themes: [],
+    schools: [],
+    artists: [],
+  });
+  const [existingRatings, setExistingRatings] = useState<Rating[]>([]);
+  const [userCategories, setUserCategories] = useState<SelectedCategories>(emptyCategories);
+  const [loadedUserId, setLoadedUserId] = useState<string | null>(null);
+  const [recommendationsData, setRecommendationsData] = useState<Recommendation[] | null>(null);
+  const [recsLoading, setRecsLoading] = useState(false);
+  const [tasteExisting, setTasteExisting] = useState<TasteItem[]>([]);
+  const [tastePreview, setTastePreview] = useState<TasteItem[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>(emptyCategories);
   const [profileName, setProfileName] = useState("");
   const [adjustingInterests, setAdjustingInterests] = useState(false);
   const [interestDraft, setInterestDraft] = useState<SelectedCategories>(emptyCategories);
-  const [loading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Recommendation | null>(null);
   const [historyNotice, setHistoryNotice] = useState<{
@@ -624,52 +628,112 @@ function App() {
     message: string;
   } | null>(null);
 
-  const baseUsers = data.users.map((user) => ({
-    id: user.id,
-    name: user.name,
-    selectedCategories: (user as typeof user & { selectedCategories?: SelectedCategories })
-      .selectedCategories,
-    createdByUser: false as const,
-  }));
-  const allUsers = [...baseUsers, ...createdProfiles];
-  const user = allUsers.find((item) => item.id === userId) ?? allUsers[0];
-  const isCreatedProfile = user.createdByUser;
-  const existingRatings = ratingsByUser[userId] ?? [];
-  const userCategories = isCreatedProfile
-    ? user.selectedCategories
-    : (categoryOverrides[userId] ?? user.selectedCategories ?? emptyCategories());
-  const hasLocalOverride = !isCreatedProfile && Boolean(categoryOverrides[userId]);
-  const existingProfile = useMemo(
-    () => buildProfile(existingRatings, userCategories, PROFILE_ALPHA),
-    [existingRatings, userCategories],
-  );
-  const creationProfile = useMemo(
-    () => buildProfile([], selectedCategories, PROFILE_ALPHA),
-    [selectedCategories],
-  );
-  const tasteProfile = buildTasteProfile(mode === "existing" ? existingProfile : creationProfile);
+  const allUsers = users.map((item) => ({ ...item, createdByUser: createdIds.includes(item.id) }));
+  const user = allUsers.find((item) => item.id === userId);
+  const isCreatedProfile = createdIds.includes(userId);
   const currentRatings = existingRatings;
   const selectedCount = Object.values(selectedCategories).flat().length;
-  const recommendations =
-    mode === "existing"
-      ? recommend(
-          existingProfile,
-          paintings.length,
-          existingRatings.map((rating) => rating.paintingId),
-          diversify,
-        )
-      : null;
+  const recommendations = mode === "existing" ? recommendationsData : null;
+  const loading = mode === "existing" && recsLoading && recommendationsData === null;
+  const tasteProfile = mode === "existing" ? tasteExisting : tastePreview;
+  const ratingsKey = existingRatings.map((item) => `${item.paintingId}:${item.rating}`).join(",");
+  const categoriesKey = JSON.stringify(userCategories);
+
+  const loadUsers = async (selectId?: string) => {
+    setUsersLoading(true);
+    try {
+      const list = await api.listUsers();
+      setUsers(list);
+      setUserId((current) =>
+        selectId ?? (list.some((item) => item.id === current) ? current : (list[0]?.id ?? "")),
+      );
+      setError(null);
+    } catch (caught) {
+      setError(errorMessage(caught));
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
+  // carga inicial: perfis e catálogo de categorias
+  useEffect(() => {
+    void loadUsers();
+    api.categories().then(setCatalog).catch((caught) => setError(errorMessage(caught)));
+  }, []);
+
+  // dados do perfil selecionado: categorias e histórico
+  useEffect(() => {
+    if (!userId) return;
+    let cancelled = false;
+    setLoadedUserId(null);
+    setRecommendationsData(null);
+    setTasteExisting([]);
+    Promise.all([api.getUser(userId), api.history(userId)])
+      .then(([detail, ratings]) => {
+        if (cancelled) return;
+        setUserCategories(detail.categories);
+        setExistingRatings(ratings);
+        setLoadedUserId(userId);
+      })
+      .catch((caught) => !cancelled && setError(errorMessage(caught)));
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
+
+  // recomendações e vetor de preferências (refeitos quando notas, interesses, N ou MMR mudam)
+  useEffect(() => {
+    if (mode !== "existing" || !userId || loadedUserId !== userId) return;
+    let cancelled = false;
+    setRecsLoading(true);
+    Promise.all([api.recommendations(userId, count, diversify), api.tasteProfile(userId)])
+      .then(([recs, taste]) => {
+        if (cancelled) return;
+        setRecommendationsData(recs);
+        setTasteExisting(taste);
+        setError(null);
+      })
+      .catch((caught) => !cancelled && setError(errorMessage(caught)))
+      .finally(() => !cancelled && setRecsLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [mode, userId, loadedUserId, count, diversify, ratingsKey, categoriesKey]);
+
+  // pré-visualização do vetor de preferências ao criar perfil (ainda não salvo)
+  useEffect(() => {
+    if (mode !== "custom") return;
+    if (selectedCount === 0) {
+      setTastePreview([]);
+      return;
+    }
+    let cancelled = false;
+    const timeout = window.setTimeout(() => {
+      api
+        .previewTaste(selectedCategories)
+        .then((items) => !cancelled && setTastePreview(items))
+        .catch(() => undefined);
+    }, 250);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeout);
+    };
+  }, [mode, selectedCategories, selectedCount]);
+
+  const setLocalRating = (paintingId: string, rating: number) =>
+    setExistingRatings((current) => {
+      const others = current.filter((item) => item.paintingId !== paintingId);
+      return rating === 0 ? others : [...others, { paintingId, rating }];
+    });
+
+  const sendRating = (targetUserId: string, paintingId: string, rating: number) =>
+    rating === 0
+      ? api.deleteRating(targetUserId, paintingId)
+      : api.putRating(targetUserId, paintingId, rating);
 
   const updateRating = (paintingId: string, rating: number) => {
     const previousRating = currentRatings.find((item) => item.paintingId === paintingId)?.rating;
-    const update = (ratings: Rating[]) =>
-      rating === 0
-        ? ratings.filter((item) => item.paintingId !== paintingId)
-        : [...ratings.filter((item) => item.paintingId !== paintingId), { paintingId, rating }];
-    setRatingsByUser((current) => ({
-      ...current,
-      [userId]: update(current[userId] ?? []),
-    }));
+    setLocalRating(paintingId, rating);
     setError(null);
     setHistoryNotice({
       paintingId,
@@ -682,110 +746,101 @@ function App() {
             ? "Avaliação atualizada"
             : "Adicionada ao histórico",
     });
+    sendRating(userId, paintingId, rating).catch((caught) => {
+      setLocalRating(paintingId, previousRating ?? 0);
+      setError(errorMessage(caught));
+    });
   };
 
   const undoHistoryChange = () => {
     if (!historyNotice) return;
-    const restore = (ratings: Rating[]) => {
-      const withoutCurrent = ratings.filter((item) => item.paintingId !== historyNotice.paintingId);
-      return historyNotice.previousRating
-        ? [
-            ...withoutCurrent,
-            {
-              paintingId: historyNotice.paintingId,
-              rating: historyNotice.previousRating,
-            },
-          ]
-        : withoutCurrent;
-    };
-    setRatingsByUser((current) => ({
-      ...current,
-      [historyNotice.targetUserId]: restore(current[historyNotice.targetUserId] ?? []),
-    }));
+    const { paintingId, previousRating, targetUserId } = historyNotice;
+    if (targetUserId === userId) setLocalRating(paintingId, previousRating ?? 0);
+    sendRating(targetUserId, paintingId, previousRating ?? 0).catch((caught) =>
+      setError(errorMessage(caught)),
+    );
     setHistoryNotice(null);
   };
 
-  const createProfile = () => {
+  const createProfile = async () => {
     if (!profileName.trim() || selectedCount < 2) return;
-    const id = `local-${Date.now()}`;
-    const profile: CreatedProfile = {
-      id,
-      name: profileName.trim(),
-      selectedCategories,
-      createdByUser: true,
-    };
-    setCreatedProfiles((current) => [...current, profile]);
-    setRatingsByUser((current) => ({ ...current, [id]: [] }));
-    setUserId(id);
-    setMode("existing");
-    setProfileName("");
-    setSelectedCategories(emptyCategories());
-    setAdjustingInterests(false);
-    setSelected(null);
-  };
-
-  const saveInterests = () => {
-    if (Object.values(interestDraft).flat().length < 2) return;
-    if (isCreatedProfile) {
-      setCreatedProfiles((current) =>
-        current.map((profile) =>
-          profile.id === userId ? { ...profile, selectedCategories: interestDraft } : profile,
-        ),
-      );
-    } else {
-      setCategoryOverrides((current) => ({
-        ...current,
-        [userId]: interestDraft,
-      }));
+    try {
+      const created = await api.createProfile(profileName.trim(), selectedCategories);
+      setCreatedIds((current) => [...current, created.id]);
+      await loadUsers(created.id);
+      setMode("existing");
+      setProfileName("");
+      setSelectedCategories(emptyCategories());
+      setAdjustingInterests(false);
+      setSelected(null);
+    } catch (caught) {
+      setError(errorMessage(caught));
     }
-    setAdjustingInterests(false);
   };
 
-  const restoreOriginalProfile = () => {
-    setCategoryOverrides((current) => {
-      const next = { ...current };
-      delete next[userId];
-      return next;
-    });
-    setAdjustingInterests(false);
+  const saveInterests = async () => {
+    if (Object.values(interestDraft).flat().length < 2) return;
+    try {
+      setUserCategories(await api.putCategories(userId, interestDraft));
+      setAdjustingInterests(false);
+    } catch (caught) {
+      setError(errorMessage(caught));
+    }
   };
 
-  const deleteCreatedProfile = () => {
-    if (
-      !isCreatedProfile ||
-      !window.confirm(`Excluir o perfil “${user.name}” e todo o seu histórico?`)
-    ) {
+  const deleteCreatedProfile = async () => {
+    const name = users.find((item) => item.id === userId)?.name ?? "";
+    if (!isCreatedProfile || !window.confirm(`Excluir o perfil “${name}” e todo o seu histórico?`)) {
       return;
     }
-    setCreatedProfiles((current) => current.filter((profile) => profile.id !== userId));
-    setRatingsByUser((current) => {
-      const next = { ...current };
-      delete next[userId];
-      return next;
-    });
-    setUserId(data.users[0].id);
-    setSelected(null);
-    setHistoryNotice(null);
+    try {
+      await api.deleteUser(userId);
+      setCreatedIds((current) => current.filter((id) => id !== userId));
+      setSelected(null);
+      setHistoryNotice(null);
+      await loadUsers();
+    } catch (caught) {
+      setError(errorMessage(caught));
+    }
   };
 
   useEffect(() => {
-    const stored: PersistedGalleryState = {
-      createdProfiles,
-      ratingsByUser,
-      categoryOverrides,
-    };
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(createdIds));
     } catch {
-      // The app remains usable in private mode or when browser storage is unavailable.
+      // O app continua funcionando sem armazenamento do navegador.
     }
-  }, [createdProfiles, ratingsByUser, categoryOverrides]);
+  }, [createdIds]);
 
   useEffect(() => {
     if (!historyNotice) return;
     const timeout = window.setTimeout(() => setHistoryNotice(null), 5000);
     return () => window.clearTimeout(timeout);
   }, [historyNotice]);
+
+  if (!user) {
+    return (
+      <div className="app-shell">
+        <main className="layout">
+          <section className="results" aria-live="polite">
+            {error ? (
+              <div className="error-state" role="alert">
+                <div aria-hidden="true">!</div>
+                <div className="eyebrow">Sem conexão com a API</div>
+                <h3>Não foi possível carregar os perfis</h3>
+                <p>{error}</p>
+                <button type="button" onClick={() => void loadUsers()}>
+                  Tentar novamente
+                </button>
+              </div>
+            ) : (
+              <p className="muted">{usersLoading ? "Carregando a galeria…" : "Nenhum perfil encontrado."}</p>
+            )}
+          </section>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
@@ -894,9 +949,6 @@ function App() {
               <div className="profile-controls">
                 <div>
                   {isCreatedProfile && <span className="local-badge">Criado por você</span>}
-                  {hasLocalOverride && (
-                    <span className="customized-badge">Perfil personalizado</span>
-                  )}
                 </div>
                 <button
                   type="button"
@@ -907,11 +959,6 @@ function App() {
                 >
                   Ajustar interesses
                 </button>
-                {hasLocalOverride && (
-                  <button type="button" onClick={restoreOriginalProfile}>
-                    Restaurar perfil original
-                  </button>
-                )}
                 {isCreatedProfile && (
                   <button type="button" className="delete-profile" onClick={deleteCreatedProfile}>
                     Excluir perfil
@@ -923,6 +970,7 @@ function App() {
                   selected={interestDraft}
                   onChange={setInterestDraft}
                   variant="adjust"
+                  catalog={catalog}
                   onSave={saveInterests}
                   onCancel={() => setAdjustingInterests(false)}
                 />
@@ -934,7 +982,8 @@ function App() {
                   </div>
                   <div className="history-list">
                     {existingRatings.map((rating) => {
-                      const painting = paintingMap.get(rating.paintingId)!;
+                      const painting = paintingMap.get(rating.paintingId);
+                      if (!painting) return null;
                       return (
                         <div
                           className={`history-item ${rating.rating <= 2 ? "disliked" : ""}`}
@@ -967,6 +1016,7 @@ function App() {
               selected={selectedCategories}
               onChange={setSelectedCategories}
               variant="create"
+              catalog={catalog}
               profileName={profileName}
               onNameChange={setProfileName}
               onSave={createProfile}
@@ -1010,7 +1060,7 @@ function App() {
                 </div>
               ))}
             </div>
-          ) : error && mode === "custom" ? (
+          ) : error ? (
             <div className="error-state" role="alert">
               <div aria-hidden="true">!</div>
               <div className="eyebrow">A curadoria foi interrompida</div>
