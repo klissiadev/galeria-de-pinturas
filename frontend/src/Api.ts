@@ -1,14 +1,16 @@
 import type {
   CategoryGroup,
+  EvaluationData,
   FeatureType,
   MatchedFeature,
   Painting,
+  QualitativeCase,
   Rating,
   Recommendation,
   SelectedCategories,
   TasteItem,
   UserSummary,
-} from "./types";
+} from "./Types";
 
 const API_URL: string = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
@@ -173,4 +175,11 @@ export const api = {
     );
     return items.map((item) => ({ ...item, type: TYPE_LABEL[item.type] ?? item.type }));
   },
+
+  getEvaluationMetrics: () => request<EvaluationData>("/evaluation/metrics"),
+
+  getQualitativeCases: () => request<QualitativeCase[]>("/evaluation/qualitative"),
+
+  runEvaluation: (params?: { seed?: number; min_ratings?: number }) =>
+    request<EvaluationData>("/evaluation/run", json("POST", params ?? {})),
 };

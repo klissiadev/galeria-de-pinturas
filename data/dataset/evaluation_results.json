@@ -1,0 +1,1083 @@
+{
+  "metadata": {
+    "num_users_evaluated": 199,
+    "num_total_paintings": 4080,
+    "relevance_threshold": 4,
+    "test_ratio": 0.2,
+    "seed": 42
+  },
+  "models": {
+    "random": {
+      "label": "Aleatório (Baseline)",
+      "metrics": {
+        "precision@5": 0.002,
+        "recall@5": 0.0038,
+        "ndcg@5": 0.0038,
+        "coverage@5": 0.2176,
+        "diversity@5": 0.9287,
+        "novelty@5": 12.2,
+        "precision@10": 0.0015,
+        "recall@10": 0.0054,
+        "ndcg@10": 0.0046,
+        "coverage@10": 0.3865,
+        "diversity@10": 0.9254,
+        "novelty@10": 12.19
+      }
+    },
+    "popularity": {
+      "label": "Mais Populares (Baseline)",
+      "metrics": {
+        "precision@5": 0.003,
+        "recall@5": 0.0039,
+        "ndcg@5": 0.0041,
+        "coverage@5": 0.002,
+        "diversity@5": 0.9329,
+        "novelty@5": 10.1,
+        "precision@10": 0.0025,
+        "recall@10": 0.0064,
+        "ndcg@10": 0.0054,
+        "coverage@10": 0.0032,
+        "diversity@10": 0.9524,
+        "novelty@10": 10.17
+      }
+    },
+    "fbc": {
+      "label": "Filtragem Baseada em Conteúdo (FBC)",
+      "metrics": {
+        "precision@5": 0.0472,
+        "recall@5": 0.0815,
+        "ndcg@5": 0.0669,
+        "coverage@5": 0.1343,
+        "diversity@5": 0.3502,
+        "novelty@5": 11.92,
+        "precision@10": 0.0417,
+        "recall@10": 0.1292,
+        "ndcg@10": 0.0887,
+        "coverage@10": 0.2243,
+        "diversity@10": 0.3984,
+        "novelty@10": 11.99
+      }
+    },
+    "fbc_mmr": {
+      "label": "FBC com Diversificação (MMR)",
+      "metrics": {
+        "precision@5": 0.0382,
+        "recall@5": 0.0561,
+        "ndcg@5": 0.0517,
+        "coverage@5": 0.1299,
+        "diversity@5": 0.5504,
+        "novelty@5": 11.98,
+        "precision@10": 0.0347,
+        "recall@10": 0.1134,
+        "ndcg@10": 0.0743,
+        "coverage@10": 0.2147,
+        "diversity@10": 0.5591,
+        "novelty@10": 11.98
+      }
+    }
+  },
+  "qualitative_cases": [
+    {
+      "case_type": "success_focused",
+      "title": "Caso de Sucesso 1: Especialização Temática e Estilo Coerente",
+      "description": "O usuário possui um histórico consistente em gêneros ou estilos específicos. O modelo FBC construiu um vetor de perfil nítido, recomendando obras que coincidem com as preferências testadas positivamente.",
+      "user_id": "152",
+      "is_error": false,
+      "train_sample": [
+        {
+          "id": "228017",
+          "rating": 4,
+          "painting": {
+            "title": "Untitled (Green Abstract)",
+            "artist": "Emilio Cruz",
+            "date": "1975",
+            "medium": "acrylic and mixed media on canvas",
+            "theme": "",
+            "style": "Abstract Expressionist, Abstraction, Modernist, Figurative Expressionism",
+            "keywords": "Bird",
+            "school": "",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/b3cbe928-8998-4c91-9430-ad504547e10f/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/b3cbe928-8998-4c91-9430-ad504547e10f/full/!200,200/0/default.jpg",
+            "tdfidf_text": "abstract expressionist, abstraction, modernist, figurative expressionism, bird abstract expressionist, abstraction, modernist, figurative expressionism untitled (green abstract) emilio cruz"
+          }
+        },
+        {
+          "id": "231975",
+          "rating": 5,
+          "painting": {
+            "title": "Position of Two Arcs of 207.5 Degrees Each",
+            "artist": "Victor Pasmore",
+            "date": "1976",
+            "medium": "acrylic on canvas",
+            "theme": "",
+            "style": "Abstraction",
+            "keywords": "",
+            "school": "",
+            "nationality": "British",
+            "url": "https://api.nga.gov/iiif/4c17eea1-f846-4133-acfa-54bc78e3b9c5/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/4c17eea1-f846-4133-acfa-54bc78e3b9c5/full/!200,200/0/default.jpg",
+            "tdfidf_text": "abstraction abstraction position of two arcs of 207.5 degrees each victor pasmore"
+          }
+        },
+        {
+          "id": "227706",
+          "rating": 4,
+          "painting": {
+            "title": "Mom's Yahrzeit",
+            "artist": "Jo Ann Rothschild",
+            "date": "2021",
+            "medium": "oil on linen",
+            "theme": "non-representational",
+            "style": "Abstraction",
+            "keywords": "Non-representational",
+            "school": "",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/5fab2b30-7aeb-40b7-b341-12217a973f77/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/5fab2b30-7aeb-40b7-b341-12217a973f77/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstraction, non-representational non-representational abstraction mom's yahrzeit jo ann rothschild"
+          }
+        },
+        {
+          "id": "228073",
+          "rating": 5,
+          "painting": {
+            "title": "Helios II",
+            "artist": "Joseph Marioni",
+            "date": "2020",
+            "medium": "Acrylic and Linen on Stretcher",
+            "theme": "non-representational",
+            "style": "Abstraction",
+            "keywords": "Non-representational",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/e8d7025c-2ab8-49e1-ac80-87387c2417bd/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/e8d7025c-2ab8-49e1-ac80-87387c2417bd/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstraction, non-representational, american non-representational abstraction helios ii joseph marioni"
+          }
+        },
+        {
+          "id": "41645",
+          "rating": 1,
+          "painting": {
+            "title": "Death and the Miser",
+            "artist": "Hieronymus Bosch",
+            "date": "c. 1485/1490",
+            "medium": "oil on panel",
+            "theme": "state of being",
+            "style": "Renaissance",
+            "keywords": "Death, Ars Moriendi",
+            "school": "Netherlandish",
+            "nationality": "Netherlandish",
+            "url": "https://api.nga.gov/iiif/03ee67ee-dd0e-443f-84ef-ede5f62ce0cd/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/03ee67ee-dd0e-443f-84ef-ede5f62ce0cd/full/!200,200/0/default.jpg",
+            "tdfidf_text": "state of being, renaissance, death, ars moriendi, netherlandish state of being renaissance death and the miser hieronymus bosch"
+          }
+        },
+        {
+          "id": "52953",
+          "rating": 3,
+          "painting": {
+            "title": "Sarah Ogden Gustin",
+            "artist": "Joshua Johnson",
+            "date": "c. 1805",
+            "medium": "oil on canvas",
+            "theme": "female",
+            "style": "Naive",
+            "keywords": "Gustin, Sarah Ogden",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/e236ab29-756f-4eb6-a7a8-00b534b40aa8/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/e236ab29-756f-4eb6-a7a8-00b534b40aa8/full/!200,200/0/default.jpg",
+            "tdfidf_text": "female, naive, gustin, sarah ogden, american female naive sarah ogden gustin joshua johnson"
+          }
+        }
+      ],
+      "test_set": [
+        {
+          "id": "225227",
+          "rating": 4,
+          "painting": {
+            "title": "Rossorosa (Redpink)",
+            "artist": "Carla Accardi",
+            "date": "1966",
+            "medium": "varnish on Sicofoil on cardboard",
+            "theme": "non-representational",
+            "style": "Abstraction",
+            "keywords": "Non-representational, Color",
+            "school": "",
+            "nationality": "Italian",
+            "url": "https://api.nga.gov/iiif/f89964c9-60b8-4f80-902c-1fa0c109743a/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/f89964c9-60b8-4f80-902c-1fa0c109743a/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstraction, non-representational, color non-representational abstraction rossorosa (redpink) carla accardi"
+          }
+        },
+        {
+          "id": "223873",
+          "rating": 4,
+          "painting": {
+            "title": "Self Portrait",
+            "artist": "Sarah Cain",
+            "date": "2020",
+            "medium": "acrylic, gouache, latex, prism beads, and plastic thread on canvas",
+            "theme": "",
+            "style": "Abstraction",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/a5b843c6-4b32-48be-b63e-4227cd78b1f2/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/a5b843c6-4b32-48be-b63e-4227cd78b1f2/full/!200,200/0/default.jpg",
+            "tdfidf_text": "abstraction, , american abstraction self portrait sarah cain"
+          }
+        },
+        {
+          "id": "226340",
+          "rating": 5,
+          "painting": {
+            "title": "Amerind Composition",
+            "artist": "Roy Lichtenstein",
+            "date": "1979",
+            "medium": "oil and Magna on canvas",
+            "theme": "North American Tribes",
+            "style": "Pop, Abstraction",
+            "keywords": "Non-representational, Themes, American Indians",
+            "school": "",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/1dbb0288-5f55-4e61-8c66-b1d64e5f0caa/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/1dbb0288-5f55-4e61-8c66-b1d64e5f0caa/full/!200,200/0/default.jpg",
+            "tdfidf_text": "north american tribes, pop, abstraction, non-representational, themes, american indians north american tribes pop, abstraction amerind composition roy lichtenstein"
+          }
+        },
+        {
+          "id": "69278",
+          "rating": 1,
+          "painting": {
+            "title": "Untitled (woman in subway)",
+            "artist": "Mark Rothko",
+            "date": "c. 1938",
+            "medium": "oil on gesso board",
+            "theme": "daily life",
+            "style": "Abstract Expressionist",
+            "keywords": "Subway",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/aba712d5-686a-4445-858c-669a6c4c4a2b/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/aba712d5-686a-4445-858c-669a6c4c4a2b/full/!200,200/0/default.jpg",
+            "tdfidf_text": "daily life, abstract expressionist, subway, american daily life abstract expressionist untitled (woman in subway) mark rothko"
+          }
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "195210",
+          "painting": {
+            "title": "Indian Composition",
+            "artist": "George Lovett Kingsland Morris",
+            "date": "1942/1945",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstraction",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/60b18ca5-805e-42a7-92a9-4b37da87ef65/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/60b18ca5-805e-42a7-92a9-4b37da87ef65/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstraction, , american non-representational abstraction indian composition george lovett kingsland morris"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "225227",
+          "painting": {
+            "title": "Rossorosa (Redpink)",
+            "artist": "Carla Accardi",
+            "date": "1966",
+            "medium": "varnish on Sicofoil on cardboard",
+            "theme": "non-representational",
+            "style": "Abstraction",
+            "keywords": "Non-representational, Color",
+            "school": "",
+            "nationality": "Italian",
+            "url": "https://api.nga.gov/iiif/f89964c9-60b8-4f80-902c-1fa0c109743a/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/f89964c9-60b8-4f80-902c-1fa0c109743a/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstraction, non-representational, color non-representational abstraction rossorosa (redpink) carla accardi"
+          },
+          "is_hit": true,
+          "test_rating": 4
+        },
+        {
+          "id": "223873",
+          "painting": {
+            "title": "Self Portrait",
+            "artist": "Sarah Cain",
+            "date": "2020",
+            "medium": "acrylic, gouache, latex, prism beads, and plastic thread on canvas",
+            "theme": "",
+            "style": "Abstraction",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/a5b843c6-4b32-48be-b63e-4227cd78b1f2/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/a5b843c6-4b32-48be-b63e-4227cd78b1f2/full/!200,200/0/default.jpg",
+            "tdfidf_text": "abstraction, , american abstraction self portrait sarah cain"
+          },
+          "is_hit": true,
+          "test_rating": 4
+        },
+        {
+          "id": "171804",
+          "painting": {
+            "title": "Belly Painting: Prussian Blue",
+            "artist": "Byron Kim",
+            "date": "1993",
+            "medium": "encaustic on linen",
+            "theme": "non-representational",
+            "style": "",
+            "keywords": "Non-representational",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/db910af6-9419-4f5f-9f83-7972c10c0649/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/db910af6-9419-4f5f-9f83-7972c10c0649/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, , non-representational, american non-representational belly painting: prussian blue byron kim"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "173774",
+          "painting": {
+            "title": "Study for Homage to the Square: Early Fusion",
+            "artist": "Josef Albers",
+            "date": "1965",
+            "medium": "oil on hardboard",
+            "theme": "non-representational",
+            "style": "",
+            "keywords": "Non-representational",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/15a96612-375a-45b7-9918-009409ac79c9/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/15a96612-375a-45b7-9918-009409ac79c9/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, , non-representational, american non-representational study for homage to the square: early fusion josef albers"
+          },
+          "is_hit": false,
+          "test_rating": null
+        }
+      ],
+      "metrics": {
+        "precision_at_5": 0.4,
+        "recall_at_5": 0.67
+      }
+    },
+    {
+      "case_type": "success_diverse",
+      "title": "Caso de Sucesso 2: Recomendações em Perfil Diversificado",
+      "description": "Usuário com interesses em mais de um movimento artístico. A FBC conseguiu equilibrar os atributos preponderantes sem perder a capacidade de acerto no conjunto de teste.",
+      "user_id": "100",
+      "is_error": false,
+      "train_sample": [
+        {
+          "id": "216779",
+          "rating": 5,
+          "painting": {
+            "title": "The Argonauts",
+            "artist": "Max Beckmann",
+            "date": "1949/1950",
+            "medium": "oil on canvas",
+            "theme": "classical",
+            "style": "German Expressionist",
+            "keywords": "Argonauts",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/4bcd88de-e755-46e5-b8a6-dc23e6a01d8f/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/4bcd88de-e755-46e5-b8a6-dc23e6a01d8f/full/!200,200/0/default.jpg",
+            "tdfidf_text": "classical, german expressionist, argonauts, german classical german expressionist the argonauts max beckmann"
+          }
+        },
+        {
+          "id": "121117",
+          "rating": 4,
+          "painting": {
+            "title": "People on a Café Terrace",
+            "artist": "Elisabeth Epstein",
+            "date": "1913",
+            "medium": "oil on canvas",
+            "theme": "taverns/cafes/inns, woman and men",
+            "style": "German Expressionist",
+            "keywords": "Figures, City life, Genre scene",
+            "school": "Russian",
+            "nationality": "Swiss",
+            "url": "https://api.nga.gov/iiif/09b8e36b-3cba-469d-baeb-3a3393fdcabc/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/09b8e36b-3cba-469d-baeb-3a3393fdcabc/full/!200,200/0/default.jpg",
+            "tdfidf_text": "taverns/cafes/inns, woman and men, german expressionist, figures, city life, genre scene, russian taverns/cafes/inns, woman and men german expressionist people on a café terrace elisabeth epstein"
+          }
+        },
+        {
+          "id": "130841",
+          "rating": 5,
+          "painting": {
+            "title": "Still Life with Bottles and Fruit",
+            "artist": "Alexej von Jawlensky",
+            "date": "1900",
+            "medium": "oil on canvas",
+            "theme": "still life",
+            "style": "German Expressionist",
+            "keywords": "Fruit, Bottles",
+            "school": "Russian",
+            "nationality": "Russian",
+            "url": "https://api.nga.gov/iiif/1f52e0d0-5111-4098-954a-452e1e0eee05/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/1f52e0d0-5111-4098-954a-452e1e0eee05/full/!200,200/0/default.jpg",
+            "tdfidf_text": "still life, german expressionist, fruit, bottles, russian still life german expressionist still life with bottles and fruit alexej von jawlensky"
+          }
+        },
+        {
+          "id": "54131",
+          "rating": 3,
+          "painting": {
+            "title": "Murnau",
+            "artist": "Alexej von Jawlensky",
+            "date": "1910",
+            "medium": "oil on hardboard",
+            "theme": "Germany",
+            "style": "German Expressionist",
+            "keywords": "Landscape, Murnau",
+            "school": "Russian",
+            "nationality": "Russian",
+            "url": "https://api.nga.gov/iiif/25378dc6-d789-4af1-ba58-480bc250f43e/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/25378dc6-d789-4af1-ba58-480bc250f43e/full/!200,200/0/default.jpg",
+            "tdfidf_text": "germany, german expressionist, landscape, murnau, russian germany german expressionist murnau alexej von jawlensky"
+          }
+        },
+        {
+          "id": "73892",
+          "rating": 4,
+          "painting": {
+            "title": "Artist and Nude",
+            "artist": "Milton Avery",
+            "date": "1940",
+            "medium": "oil on canvas",
+            "theme": "double",
+            "style": "",
+            "keywords": "Standing, Avery, Milton, Nude model",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/fc43f5ac-ea37-49c7-a6e3-452ea9772576/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/fc43f5ac-ea37-49c7-a6e3-452ea9772576/full/!200,200/0/default.jpg",
+            "tdfidf_text": "double, , standing, avery, milton, nude model, american double artist and nude milton avery"
+          }
+        },
+        {
+          "id": "46655",
+          "rating": 3,
+          "painting": {
+            "title": "The Seine at Giverny",
+            "artist": "Claude Monet",
+            "date": "1897",
+            "medium": "oil on canvas",
+            "theme": "France",
+            "style": "Impressionist",
+            "keywords": "Waterway, Giverny",
+            "school": "French",
+            "nationality": "French",
+            "url": "https://api.nga.gov/iiif/9b536eb8-6b53-42d5-aa3c-5e8b02f0b37a/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/9b536eb8-6b53-42d5-aa3c-5e8b02f0b37a/full/!200,200/0/default.jpg",
+            "tdfidf_text": "france, impressionist, waterway, giverny, french france impressionist the seine at giverny claude monet"
+          }
+        }
+      ],
+      "test_set": [
+        {
+          "id": "121109",
+          "rating": 5,
+          "painting": {
+            "title": "Street of Barns",
+            "artist": "Lyonel Feininger",
+            "date": "1914",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "German Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/754be99a-44ad-43b2-b56a-ecb5a0d923d7/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/754be99a-44ad-43b2-b56a-ecb5a0d923d7/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, german expressionist, , american non-representational german expressionist street of barns lyonel feininger"
+          }
+        },
+        {
+          "id": "46110",
+          "rating": 1,
+          "painting": {
+            "title": "Portrait of a Female Donor",
+            "artist": "Petrus Christus",
+            "date": "c. 1455",
+            "medium": "oil on panel",
+            "theme": "female",
+            "style": "Renaissance",
+            "keywords": "Donor",
+            "school": "Bruges",
+            "nationality": "Netherlandish",
+            "url": "https://api.nga.gov/iiif/b07a2e6c-9a5e-44c0-93d6-8a0e83c2f2f3/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/b07a2e6c-9a5e-44c0-93d6-8a0e83c2f2f3/full/!200,200/0/default.jpg",
+            "tdfidf_text": "female, renaissance, donor, bruges female renaissance portrait of a female donor petrus christus"
+          }
+        },
+        {
+          "id": "62640",
+          "rating": 5,
+          "painting": {
+            "title": "Siberian Dogs in the Snow",
+            "artist": "Franz Marc",
+            "date": "1909/1910",
+            "medium": "oil on canvas",
+            "theme": "mammal",
+            "style": "German Expressionist",
+            "keywords": "Dog",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/bc95069a-43c7-4dc5-bbe4-8b34041203ed/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/bc95069a-43c7-4dc5-bbe4-8b34041203ed/full/!200,200/0/default.jpg",
+            "tdfidf_text": "mammal, german expressionist, dog, german mammal german expressionist siberian dogs in the snow franz marc"
+          }
+        },
+        {
+          "id": "121108",
+          "rating": 3,
+          "painting": {
+            "title": "The Mill (at Goppeln)",
+            "artist": "Erich Heckel",
+            "date": "1907",
+            "medium": "oil on canvas",
+            "theme": "rustic",
+            "style": "German Expressionist",
+            "keywords": "Windmill",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/f1030959-8e0c-4e60-874c-8f933a3d86e6/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/f1030959-8e0c-4e60-874c-8f933a3d86e6/full/!200,200/0/default.jpg",
+            "tdfidf_text": "rustic, german expressionist, windmill, german rustic german expressionist the mill (at goppeln) erich heckel"
+          }
+        },
+        {
+          "id": "121096",
+          "rating": 3,
+          "painting": {
+            "title": "Weasels at Play",
+            "artist": "Franz Marc",
+            "date": "1911",
+            "medium": "oil on canvas",
+            "theme": "mammal",
+            "style": "German Expressionist",
+            "keywords": "Weasel",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/726ce5a3-7af2-455e-a82b-21ab9cfddd31/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/726ce5a3-7af2-455e-a82b-21ab9cfddd31/full/!200,200/0/default.jpg",
+            "tdfidf_text": "mammal, german expressionist, weasel, german mammal german expressionist weasels at play franz marc"
+          }
+        },
+        {
+          "id": "121344",
+          "rating": 5,
+          "painting": {
+            "title": "People by the Blue Lake",
+            "artist": "August Macke",
+            "date": "1913",
+            "medium": "oil on canvas",
+            "theme": "group, landscape",
+            "style": "German Expressionist",
+            "keywords": "Figures, Lake",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/72f706d6-0de4-418d-87fa-95dd1c13578c/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/72f706d6-0de4-418d-87fa-95dd1c13578c/full/!200,200/0/default.jpg",
+            "tdfidf_text": "group, landscape, german expressionist, figures, lake, german group, landscape german expressionist people by the blue lake august macke"
+          }
+        },
+        {
+          "id": "121101",
+          "rating": 4,
+          "painting": {
+            "title": "Flower Garden, Kneeling Woman with Hat",
+            "artist": "Emil Nolde",
+            "date": "1908",
+            "medium": "oil on canvas",
+            "theme": "botanical, Nature",
+            "style": "German Expressionist",
+            "keywords": "Kneeling figure, Garden",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/1736e707-7b63-437c-96be-4fedc953f010/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/1736e707-7b63-437c-96be-4fedc953f010/full/!200,200/0/default.jpg",
+            "tdfidf_text": "botanical, nature, german expressionist, kneeling figure, garden, german botanical, nature german expressionist flower garden, kneeling woman with hat emil nolde"
+          }
+        },
+        {
+          "id": "41653",
+          "rating": 4,
+          "painting": {
+            "title": "Saint Jerome Penitent [right panel]",
+            "artist": "Jan Gossaert",
+            "date": "c. 1509/1512",
+            "medium": "oil on panel",
+            "theme": "saints",
+            "style": "Renaissance",
+            "keywords": "Jerome",
+            "school": "Netherlandish",
+            "nationality": "Netherlandish",
+            "url": "https://api.nga.gov/iiif/1a0bd5c7-54f0-49e9-b570-aaa680278896/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/1a0bd5c7-54f0-49e9-b570-aaa680278896/full/!200,200/0/default.jpg",
+            "tdfidf_text": "saints, renaissance, jerome, netherlandish saints renaissance saint jerome penitent [right panel] jan gossaert"
+          }
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "55598",
+          "painting": {
+            "title": "The Argonauts [middle panel]",
+            "artist": "Max Beckmann",
+            "date": "1949/1950",
+            "medium": "oil on canvas",
+            "theme": "classical",
+            "style": "German Expressionist",
+            "keywords": "Argonauts",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/0339f626-c218-4c68-bef9-75cfd21a1a08/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/0339f626-c218-4c68-bef9-75cfd21a1a08/full/!200,200/0/default.jpg",
+            "tdfidf_text": "classical, german expressionist, argonauts, german classical german expressionist the argonauts [middle panel] max beckmann"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "138183",
+          "painting": {
+            "title": "Bathing Scene (The Green Cloak)",
+            "artist": "Max Beckmann",
+            "date": "1934",
+            "medium": "oil on canvas",
+            "theme": "full figure standing",
+            "style": "German Expressionist",
+            "keywords": "",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/7fbda92d-aca4-48c9-b0d0-ab5603d659e4/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/7fbda92d-aca4-48c9-b0d0-ab5603d659e4/full/!200,200/0/default.jpg",
+            "tdfidf_text": "full figure standing, german expressionist, , german full figure standing german expressionist bathing scene (the green cloak) max beckmann"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "55600",
+          "painting": {
+            "title": "Christ in Limbo",
+            "artist": "Max Beckmann",
+            "date": "1947/1948",
+            "medium": "oil on canvas",
+            "theme": "Life of Christ",
+            "style": "German Expressionist",
+            "keywords": "Christ in Limbo",
+            "school": "German",
+            "nationality": "German",
+            "url": "https://api.nga.gov/iiif/082b240a-a316-4c5d-bd87-7711290d7d3d/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/082b240a-a316-4c5d-bd87-7711290d7d3d/full/!200,200/0/default.jpg",
+            "tdfidf_text": "life of christ, german expressionist, christ in limbo, german life of christ german expressionist christ in limbo max beckmann"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "50664",
+          "painting": {
+            "title": "Zirchow VII",
+            "artist": "Lyonel Feininger",
+            "date": "1918",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "German Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/d0c6213e-777e-48e9-8ec1-43e62aee0aff/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/d0c6213e-777e-48e9-8ec1-43e62aee0aff/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, german expressionist, , american non-representational german expressionist zirchow vii lyonel feininger"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "121109",
+          "painting": {
+            "title": "Street of Barns",
+            "artist": "Lyonel Feininger",
+            "date": "1914",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "German Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/754be99a-44ad-43b2-b56a-ecb5a0d923d7/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/754be99a-44ad-43b2-b56a-ecb5a0d923d7/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, german expressionist, , american non-representational german expressionist street of barns lyonel feininger"
+          },
+          "is_hit": true,
+          "test_rating": 5
+        }
+      ],
+      "metrics": {
+        "precision_at_5": 0.2,
+        "recall_at_5": 0.2
+      }
+    },
+    {
+      "case_type": "error_limitation",
+      "title": "Caso de Erro / Limitação: Superespecialização e Escassez de Metadados",
+      "description": "Análise crítica: a FBC baseia-se estritamente na similaridade vetorial das palavras e tags. Neste caso, a recomendação priorizou metadados redundantes (ex.: mesmo artista ou estilo), mas o usuário avaliou a obra negativamente no teste ou tinha uma nuance estética não capturada pelos termos textuais, ilustrando o problema clássico de superespecialização (filter bubble) e dependência da granularidade dos metadados.",
+      "user_id": "1",
+      "is_error": true,
+      "train_sample": [
+        {
+          "id": "86463",
+          "rating": 4,
+          "painting": {
+            "title": "First Theme",
+            "artist": "Burgoyne Diller",
+            "date": "1964",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/7b7c54d1-3b1f-4ef9-a6be-570ff9d59302/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/7b7c54d1-3b1f-4ef9-a6be-570ff9d59302/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, , , american non-representational first theme burgoyne diller"
+          }
+        },
+        {
+          "id": "59964",
+          "rating": 5,
+          "painting": {
+            "title": "John Lothrop",
+            "artist": "John Durand",
+            "date": "c. 1770",
+            "medium": "oil on canvas",
+            "theme": "male",
+            "style": "Naive",
+            "keywords": "Lothrop, John",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/4bedb9bb-2e4e-43ec-acaf-2b08df285ae5/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/4bedb9bb-2e4e-43ec-acaf-2b08df285ae5/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, naive, lothrop, john, american male naive john lothrop john durand"
+          }
+        },
+        {
+          "id": "102631",
+          "rating": 2,
+          "painting": {
+            "title": "Estuary at Day's End",
+            "artist": "Simon de Vlieger",
+            "date": "c. 1640/1645",
+            "medium": "oil on panel",
+            "theme": "Netherlands, vehicle",
+            "style": "Baroque",
+            "keywords": "Boats, Dawn, Estuary, Marine",
+            "school": "Dutch",
+            "nationality": "Dutch",
+            "url": "https://api.nga.gov/iiif/7b291c7b-c0ab-4e88-af6c-31a821a3f8cc/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/7b291c7b-c0ab-4e88-af6c-31a821a3f8cc/full/!200,200/0/default.jpg",
+            "tdfidf_text": "netherlands, vehicle, baroque, boats, dawn, estuary, marine, dutch netherlands, vehicle baroque estuary at day's end simon de vlieger"
+          }
+        },
+        {
+          "id": "360",
+          "rating": 3,
+          "painting": {
+            "title": "Giovanni II Bentivoglio",
+            "artist": "Ercole de' Roberti",
+            "date": "c. 1474/1477",
+            "medium": "tempera on poplar panel",
+            "theme": "male",
+            "style": "Renaissance",
+            "keywords": "Bentivoglio, Giovanni II",
+            "school": "Ferrarese",
+            "nationality": "Italian",
+            "url": "https://api.nga.gov/iiif/5f5c2a70-2986-483f-8e16-b43669dc3e6c/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/5f5c2a70-2986-483f-8e16-b43669dc3e6c/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, renaissance, bentivoglio, giovanni ii, ferrarese male renaissance giovanni ii bentivoglio ercole de' roberti"
+          }
+        },
+        {
+          "id": "72072",
+          "rating": 5,
+          "painting": {
+            "title": "Portrait of a Member of the Quaratesi Family",
+            "artist": "French 16th Century",
+            "date": "1561",
+            "medium": "oil on probably oak",
+            "theme": "male",
+            "style": "Renaissance",
+            "keywords": "Quaratesi Family, member of",
+            "school": "French",
+            "nationality": "French",
+            "url": "https://api.nga.gov/iiif/2eb7cba2-a1f6-480e-99ef-a1cb351db0e0/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/2eb7cba2-a1f6-480e-99ef-a1cb351db0e0/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, renaissance, quaratesi family, member of, french male renaissance portrait of a member of the quaratesi family french 16th century"
+          }
+        },
+        {
+          "id": "51138",
+          "rating": 3,
+          "painting": {
+            "title": "Storm-Tossed Frigate",
+            "artist": "Thomas Chambers",
+            "date": "mid 19th century",
+            "medium": "oil on canvas",
+            "theme": "vehicle",
+            "style": "Naive",
+            "keywords": "Frigate",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/309ca665-ff41-4f7e-8433-c8dd6e0038a0/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/309ca665-ff41-4f7e-8433-c8dd6e0038a0/full/!200,200/0/default.jpg",
+            "tdfidf_text": "vehicle, naive, frigate, american vehicle naive storm-tossed frigate thomas chambers"
+          }
+        }
+      ],
+      "test_set": [
+        {
+          "id": "51096",
+          "rating": 5,
+          "painting": {
+            "title": "Portrait of a Man in a Wide-Brimmed Hat",
+            "artist": "Flemish 17th Century (Possibly Jan Cossiers)",
+            "date": "early 1630s",
+            "medium": "oil on panel",
+            "theme": "male",
+            "style": "Baroque",
+            "keywords": "",
+            "school": "Flemish",
+            "nationality": "Flemish",
+            "url": "https://api.nga.gov/iiif/16707b5a-1217-4e98-8133-b3d552380b4a/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/16707b5a-1217-4e98-8133-b3d552380b4a/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, baroque, , flemish male baroque portrait of a man in a wide-brimmed hat flemish 17th century (possibly jan cossiers)"
+          }
+        },
+        {
+          "id": "35086",
+          "rating": 1,
+          "painting": {
+            "title": "River View",
+            "artist": "Jean-Baptiste-Camille Corot",
+            "date": "1868/1872",
+            "medium": "oil on wood",
+            "theme": "France",
+            "style": "Romantic",
+            "keywords": "Landscape",
+            "school": "French",
+            "nationality": "French",
+            "url": "https://api.nga.gov/iiif/28847b06-0eb8-406e-befc-5867fd9651c2/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/28847b06-0eb8-406e-befc-5867fd9651c2/full/!200,200/0/default.jpg",
+            "tdfidf_text": "france, romantic, landscape, french france romantic river view jean-baptiste-camille corot"
+          }
+        },
+        {
+          "id": "67365",
+          "rating": 5,
+          "painting": {
+            "title": "Sea Fantasy",
+            "artist": "Mark Rothko",
+            "date": "1946",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/9e011093-606e-427a-a52b-a8fb2f0b61a3/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/9e011093-606e-427a-a52b-a8fb2f0b61a3/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist sea fantasy mark rothko"
+          }
+        },
+        {
+          "id": "70525",
+          "rating": 4,
+          "painting": {
+            "title": "Pagan Void",
+            "artist": "Barnett Newman",
+            "date": "1946",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/726ed259-4a54-4235-a93c-9704f5642ff0/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/726ed259-4a54-4235-a93c-9704f5642ff0/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist pagan void barnett newman"
+          }
+        },
+        {
+          "id": "1121",
+          "rating": 5,
+          "painting": {
+            "title": "George Washington (Vaughan portrait)",
+            "artist": "Gilbert Stuart",
+            "date": "1795",
+            "medium": "oil on canvas",
+            "theme": "male",
+            "style": "Realist",
+            "keywords": "Washington, George",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/26a07dd0-941a-4d1c-8381-d8125547ff24/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/26a07dd0-941a-4d1c-8381-d8125547ff24/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, realist, washington, george, american male realist george washington (vaughan portrait) gilbert stuart"
+          }
+        },
+        {
+          "id": "34105",
+          "rating": 4,
+          "painting": {
+            "title": "Dr. John Edwards Holbrook",
+            "artist": "Daniel Huntington",
+            "date": "1857",
+            "medium": "oil on canvas",
+            "theme": "male",
+            "style": "",
+            "keywords": "Holbrook, Dr. John Edwards",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/82c4f800-4a50-468a-b596-419a86a280b1/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/82c4f800-4a50-468a-b596-419a86a280b1/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, , holbrook, dr. john edwards, american male dr. john edwards holbrook daniel huntington"
+          }
+        },
+        {
+          "id": "84377",
+          "rating": 4,
+          "painting": {
+            "title": "Henri Camille, Chevalier de Beringhen",
+            "artist": "Jean-Baptiste Oudry",
+            "date": "1722",
+            "medium": "oil on canvas",
+            "theme": "male",
+            "style": "Rococo",
+            "keywords": "Beringhen, Henri-Camille, Chevalier de",
+            "school": "French",
+            "nationality": "French",
+            "url": "https://api.nga.gov/iiif/208a1c87-7997-4240-821f-07f9f6d8f206/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/208a1c87-7997-4240-821f-07f9f6d8f206/full/!200,200/0/default.jpg",
+            "tdfidf_text": "male, rococo, beringhen, henri-camille, chevalier de, french male rococo henri camille, chevalier de beringhen jean-baptiste oudry"
+          }
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "69372",
+          "painting": {
+            "title": "Second Station",
+            "artist": "Barnett Newman",
+            "date": "1958",
+            "medium": "Magna on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/caba46a3-1173-469d-91d4-6016dcf350c7/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/caba46a3-1173-469d-91d4-6016dcf350c7/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist second station barnett newman"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "69373",
+          "painting": {
+            "title": "Third Station",
+            "artist": "Barnett Newman",
+            "date": "1960",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/6821b552-a0cd-4ca8-a435-dbe772f95a93/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/6821b552-a0cd-4ca8-a435-dbe772f95a93/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist third station barnett newman"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "69374",
+          "painting": {
+            "title": "Fourth Station",
+            "artist": "Barnett Newman",
+            "date": "1960",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/a6419aa6-d6db-4737-9bdf-4e5146a38fb0/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/a6419aa6-d6db-4737-9bdf-4e5146a38fb0/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist fourth station barnett newman"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "69375",
+          "painting": {
+            "title": "Fifth Station",
+            "artist": "Barnett Newman",
+            "date": "1962",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/2b44502c-8ba7-4ad5-932b-bbc14d8ce9bb/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/2b44502c-8ba7-4ad5-932b-bbc14d8ce9bb/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist fifth station barnett newman"
+          },
+          "is_hit": false,
+          "test_rating": null
+        },
+        {
+          "id": "69376",
+          "painting": {
+            "title": "Sixth Station",
+            "artist": "Barnett Newman",
+            "date": "1962",
+            "medium": "oil on canvas",
+            "theme": "non-representational",
+            "style": "Abstract Expressionist",
+            "keywords": "",
+            "school": "American",
+            "nationality": "American",
+            "url": "https://api.nga.gov/iiif/d3932607-ef24-4886-90c2-ffab0c5ddfa5/full/!400,400/0/default.jpg",
+            "thumbnail": "https://api.nga.gov/iiif/d3932607-ef24-4886-90c2-ffab0c5ddfa5/full/!200,200/0/default.jpg",
+            "tdfidf_text": "non-representational, abstract expressionist, , american non-representational abstract expressionist sixth station barnett newman"
+          },
+          "is_hit": false,
+          "test_rating": null
+        }
+      ],
+      "metrics": {
+        "precision_at_5": 0.0,
+        "recall_at_5": 0.0
+      }
+    }
+  ]
+}

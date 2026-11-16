@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { api, paintingCache } from "./api";
+import { api, paintingCache } from "./Api";
 import type {
   CategoryGroup,
+  EvaluationData,
   Painting,
+  QualitativeCase,
   Rating,
   Recommendation,
   SelectedCategories,
@@ -594,7 +596,313 @@ function readCreatedIds(): string[] {
 const errorMessage = (error: unknown) =>
   error instanceof Error ? error.message : "Erro inesperado ao falar com a API.";
 
+function EvaluationDashboard() {
+  const [data, setData] = useState<EvaluationData | null>(null);
+  const [cases, setCases] = useState<QualitativeCase[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [running, setRunning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadData = () => {
+    setLoading(true);
+    Promise.all([api.getEvaluationMetrics(), api.getQualitativeCases()])
+      .then(([metricsData, casesData]) => {
+        setData(metricsData);
+        setCases(casesData);
+        setError(null);
+      })
+      .catch((err) => setError(errorMessage(err)))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const handleRunEvaluation = async () => {
+    setRunning(true);
+    try {
+      await api.runEvaluation({ seed: 42, min_ratings: 5 });
+      loadData();
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className="metrics-container">
+        <div className="empty-state">
+          <h3>Carregando avaliação experimental...</h3>
+          <p className="muted">Calculando métricas e baselines offline.</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <main className="metrics-container">
+        <div className="empty-state">
+          <h3>Erro ao carregar métricas</h3>
+          <p>{error}</p>
+          <button type="button" className="rerun-btn" onClick={loadData}>
+            Tentar novamente
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  const { metadata, models } = data;
+  const fbc = models.fbc?.metrics;
+  const fbcMmr = models.fbc_mmr?.metrics;
+  const random = models.random?.metrics;
+
+  const p5Gain =
+    random && fbc
+      ? Math.round(((fbc["precision@5"] - random["precision@5"]) / (random["precision@5"] || 0.001)) * 100)
+      : 0;
+  const r5Gain =
+    random && fbc
+      ? Math.round(((fbc["recall@5"] - random["recall@5"]) / (random["recall@5"] || 0.001)) * 100)
+      : 0;
+  const ndcg5Gain =
+    random && fbc
+      ? Math.round(((fbc["ndcg@5"] - random["ndcg@5"]) / (random["ndcg@5"] || 0.001)) * 100)
+      : 0;
+  const ildGain =
+    fbc && fbcMmr && fbc["diversity@5"] > 0
+      ? Math.round(((fbcMmr["diversity@5"] - fbc["diversity@5"]) / fbc["diversity@5"]) * 100)
+      : 0;
+
+  return (
+    <main className="metrics-container">
+      <div className="metrics-header">
+        <div className="metrics-title">
+          <h1>Avaliação Experimental & Métricas</h1>
+          <p>
+            Protocolo offline com split 80/20 por usuário, comparando FBC contra baselines obrigatórios
+            conforme o Guia do Trabalho.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="rerun-btn"
+          disabled={running}
+          onClick={handleRunEvaluation}
+        >
+          {running ? "Calculando..." : "↻ Recalcular Avaliação Offline"}
+        </button>
+      </div>
+
+      <div className="metrics-meta-bar">
+        <span className="meta-chip">
+          Usuários avaliados: <strong>{metadata.num_users_evaluated}</strong>
+        </span>
+        <span className="meta-chip">
+          Catálogo total: <strong>{metadata.num_total_paintings} pinturas</strong>
+        </span>
+        <span className="meta-chip">
+          Divisão: <strong>80% treino / 20% teste</strong>
+        </span>
+        <span className="meta-chip">
+          Relevância: <strong>Nota ≥ {metadata.relevance_threshold}</strong>
+        </span>
+        <span className="meta-chip">
+          Semente fixa: <strong>{metadata.seed}</strong>
+        </span>
+      </div>
+
+      <div className="metrics-kpi-grid">
+        <div className="kpi-card">
+          <div className="kpi-label">Precision@5 (FBC)</div>
+          <div className="kpi-value-row">
+            <span className="kpi-value">{(fbc?.["precision@5"] ?? 0).toFixed(4)}</span>
+            <span className="kpi-gain-badge">+{p5Gain}% vs Aleatório</span>
+          </div>
+          <div className="kpi-subtext">Taxa de acertos relevantes no Top-5 (Aleatório: {random?.["precision@5"]?.toFixed(4)})</div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-label">Recall@5 (FBC)</div>
+          <div className="kpi-value-row">
+            <span className="kpi-value">{(fbc?.["recall@5"] ?? 0).toFixed(4)}</span>
+            <span className="kpi-gain-badge">+{r5Gain}% vs Aleatório</span>
+          </div>
+          <div className="kpi-subtext">Cobertura dos itens relevantes de teste (Aleatório: {random?.["recall@5"]?.toFixed(4)})</div>
+        </div>
+
+        <div className="kpi-card">
+          <div className="kpi-label">nDCG@5 (FBC)</div>
+          <div className="kpi-value-row">
+            <span className="kpi-value">{(fbc?.["ndcg@5"] ?? 0).toFixed(4)}</span>
+            <span className="kpi-gain-badge">+{ndcg5Gain}% vs Aleatório</span>
+          </div>
+          <div className="kpi-subtext">Qualidade e ranking posicional das recomendações (Aleatório: {random?.["ndcg@5"]?.toFixed(4)})</div>
+        </div>
+
+        <div className="kpi-card variant-diversity">
+          <div className="kpi-label">Diversidade Intra-Lista (MMR)</div>
+          <div className="kpi-value-row">
+            <span className="kpi-value">{(fbcMmr?.["diversity@5"] ?? 0).toFixed(4)}</span>
+            <span className="kpi-gain-badge" style={{ background: "#fdf0ec", color: "var(--terracotta)" }}>
+              +{ildGain}% vs FBC puro
+            </span>
+          </div>
+          <div className="kpi-subtext">Dissimilaridade média par-a-par reduzindo superespecialização (FBC: {fbc?.["diversity@5"]?.toFixed(4)})</div>
+        </div>
+      </div>
+
+      <section className="metrics-section">
+        <div className="metrics-section-title">
+          <span>Tabela Comparativa Completa — Top-5 e Top-10</span>
+        </div>
+        <div className="table-responsive">
+          <table className="eval-table">
+            <thead>
+              <tr>
+                <th>Modelo</th>
+                <th>P@5</th>
+                <th>R@5</th>
+                <th>nDCG@5</th>
+                <th>P@10</th>
+                <th>R@10</th>
+                <th>nDCG@10</th>
+                <th>Cobertura@10</th>
+                <th>Diversidade@10</th>
+                <th>Novidade@10</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(models).map(([key, model]) => {
+                const isFBC = key === "fbc" || key === "fbc_mmr";
+                const isBaseline = key === "random" || key === "popularity";
+                const m = model.metrics;
+                return (
+                  <tr key={key} className={isFBC ? "highlight-row" : ""}>
+                    <td>
+                      <strong>{model.label}</strong>
+                      {isBaseline && <span className="badge-baseline">Baseline</span>}
+                      {isFBC && <span className="badge-model">FBC Proposto</span>}
+                    </td>
+                    <td>{m["precision@5"].toFixed(4)}</td>
+                    <td>{m["recall@5"].toFixed(4)}</td>
+                    <td>{m["ndcg@5"].toFixed(4)}</td>
+                    <td>{m["precision@10"].toFixed(4)}</td>
+                    <td>{m["recall@10"].toFixed(4)}</td>
+                    <td>{m["ndcg@10"].toFixed(4)}</td>
+                    <td>{(m["coverage@10"] * 100).toFixed(1)}%</td>
+                    <td>{m["diversity@10"].toFixed(4)}</td>
+                    <td>{m["novelty@10"].toFixed(2)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {cases && cases.length > 0 && (
+        <section className="metrics-section">
+          <div className="metrics-section-title">
+            <span>Avaliação Qualitativa: Casos Reais & Análise de Limitações</span>
+          </div>
+          <div className="qualitative-grid">
+            {cases.map((c, idx) => (
+              <article
+                key={idx}
+                className={`case-card ${c.is_error ? "is-error" : "is-success"}`}
+              >
+                <div className="case-header">
+                  <h3>{c.title}</h3>
+                  <span className={`case-badge ${c.is_error ? "error" : "success"}`}>
+                    {c.is_error ? "Discussão de Limitação / Erro" : "Caso de Sucesso"}
+                  </span>
+                </div>
+                <p className="case-description">{c.description}</p>
+                <div style={{ display: "flex", gap: "16px", marginBottom: "16px", fontSize: "13px" }}>
+                  <span>Usuário ID: <strong>{c.user_id}</strong></span>
+                  <span>Precision@5 no usuário: <strong>{(c.metrics.precision_at_5 * 100).toFixed(0)}%</strong></span>
+                  <span>Recall@5 no usuário: <strong>{(c.metrics.recall_at_5 * 100).toFixed(0)}%</strong></span>
+                </div>
+
+                <div className="case-subheading">Amostra do Histórico de Treino</div>
+                <div className="case-paintings-row">
+                  {c.train_sample.map((item, pIdx) => (
+                    <div key={pIdx} className="case-painting-mini">
+                      <img
+                        src={item.painting.thumbnail || item.painting.url}
+                        alt={item.painting.title}
+                        className="case-painting-thumb"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = "none";
+                        }}
+                      />
+                      <div className="case-painting-info">
+                        <div className="case-painting-title">{item.painting.title}</div>
+                        <div className="case-painting-artist">{item.painting.artist}</div>
+                        <div style={{ color: "#d97706", fontWeight: 600, marginTop: "4px" }}>
+                          {"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="case-subheading">Top-5 Recomendações Geradas pelo Modelo FBC</div>
+                <div className="case-paintings-row">
+                  {c.recommendations.map((item, rIdx) => (
+                    <div key={rIdx} className="case-painting-mini">
+                      <img
+                        src={item.painting.thumbnail || item.painting.url}
+                        alt={item.painting.title}
+                        className="case-painting-thumb"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = "none";
+                        }}
+                      />
+                      <div className="case-painting-info">
+                        <div className="case-painting-title">{item.painting.title}</div>
+                        <div className="case-painting-artist">{item.painting.artist}</div>
+                        {item.is_hit && (
+                          <span className="tag-eval-hit">✓ Relevante no Teste (Acerto)</span>
+                        )}
+                        {!item.is_hit && item.test_rating && item.test_rating <= 2 && (
+                          <span className="tag-eval-dislike">✗ Desgostou no Teste (Erro)</span>
+                        )}
+                        {!item.is_hit && (!item.test_rating || item.test_rating === 3) && (
+                          <span className="tag-eval-unrated">Não avaliado no Teste</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {c.is_error && (
+                  <div className="case-analysis-box">
+                    <strong>Por que a FBC falha neste cenário?</strong>
+                    <br />
+                    A Filtragem Baseada em Conteúdo sofre do efeito clássico de <em>superespecialização (filter bubble)</em>:
+                    ao identificar forte associação em atributos como artista e estilo, o modelo concentra
+                    suas recomendações nas mesmas séries ou movimentos artísticos já consumidos, perdendo capacidade de
+                    apresentar novidades estéticas (serendipidade) e ignorando atributos sutis não representados no texto.
+                    A diversificação (MMR) e abordagens híbridas são as estratégias recomendadas para mitigar essa deficiência.
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
+  );
+}
+
 function App() {
+  const [view, setView] = useState<"gallery" | "evaluation">("gallery");
   const [mode, setMode] = useState<Mode>("existing");
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [usersLoading, setUsersLoading] = useState(true);
@@ -855,67 +1163,94 @@ function App() {
             Galeria <em>Sugerida</em>
           </span>
         </a>
-        <div className="toolbar">
-          <div className="mode-tabs" role="tablist" aria-label="Modo de recomendação">
-            <button
-              role="tab"
-              aria-selected={mode === "existing"}
-              onClick={() => {
-                setMode("existing");
-                setError(null);
-                setAdjustingInterests(false);
-                setSelected(null);
-              }}
-            >
-              Usuário existente
-            </button>
-            <button
-              role="tab"
-              aria-selected={mode === "custom"}
-              onClick={() => {
-                setMode("custom");
-                setError(null);
-                setAdjustingInterests(false);
-                setSelected(null);
-              }}
-            >
-              Criar perfil
-            </button>
-          </div>
-          <label className="select-label">
-            <span>Quantidade de recomendações (N)</span>
-            <select
-              value={count}
-              onChange={(event) => setCount(Number(event.target.value) as 5 | 10)}
-            >
-              <option value={5}>5 obras</option>
-              <option value={10}>10 obras</option>
-            </select>
-          </label>
-          <div className="switch-wrap">
-            <button
-              type="button"
-              className={`switch ${diversify ? "on" : ""}`}
-              role="switch"
-              aria-checked={diversify}
-              onClick={() => setDiversify((value) => !value)}
-            >
-              <span />
-            </button>
-            <span>
-              Diversificar resultados <small>(MMR)</small>
-            </span>
-            <span className="tooltip">
-              <button aria-label="Sobre diversificação dos resultados">?</button>
-              <span role="tooltip">
-                Reduz recomendações muito parecidas entre si, ampliando a variedade do resultado.
-              </span>
-            </span>
-          </div>
+
+        <div className="nav-view-switcher" role="tablist" aria-label="Navegação da Aplicação">
+          <button
+            type="button"
+            role="tab"
+            className={`nav-view-btn ${view === "gallery" ? "active" : ""}`}
+            aria-selected={view === "gallery"}
+            onClick={() => setView("gallery")}
+          >
+            Galeria & Recomendações
+          </button>
+          <button
+            type="button"
+            role="tab"
+            className={`nav-view-btn ${view === "evaluation" ? "active" : ""}`}
+            aria-selected={view === "evaluation"}
+            onClick={() => setView("evaluation")}
+          >
+            Avaliação do Modelo & Métricas
+          </button>
         </div>
+
+        {view === "gallery" && (
+          <div className="toolbar">
+            <div className="mode-tabs" role="tablist" aria-label="Modo de recomendação">
+              <button
+                role="tab"
+                aria-selected={mode === "existing"}
+                onClick={() => {
+                  setMode("existing");
+                  setError(null);
+                  setAdjustingInterests(false);
+                  setSelected(null);
+                }}
+              >
+                Usuário existente
+              </button>
+              <button
+                role="tab"
+                aria-selected={mode === "custom"}
+                onClick={() => {
+                  setMode("custom");
+                  setError(null);
+                  setAdjustingInterests(false);
+                  setSelected(null);
+                }}
+              >
+                Criar perfil
+              </button>
+            </div>
+            <label className="select-label">
+              <span>Quantidade de recomendações (N)</span>
+              <select
+                value={count}
+                onChange={(event) => setCount(Number(event.target.value) as 5 | 10)}
+              >
+                <option value={5}>5 obras</option>
+                <option value={10}>10 obras</option>
+              </select>
+            </label>
+            <div className="switch-wrap">
+              <button
+                type="button"
+                className={`switch ${diversify ? "on" : ""}`}
+                role="switch"
+                aria-checked={diversify}
+                onClick={() => setDiversify((value) => !value)}
+              >
+                <span />
+              </button>
+              <span>
+                Diversificar resultados <small>(MMR)</small>
+              </span>
+              <span className="tooltip">
+                <button aria-label="Sobre diversificação dos resultados">?</button>
+                <span role="tooltip">
+                  Reduz recomendações muito parecidas entre si, ampliando a variedade do resultado.
+                </span>
+              </span>
+            </div>
+          </div>
+        )}
       </header>
 
-      <main id="main" className="layout">
+      {view === "evaluation" ? (
+        <EvaluationDashboard />
+      ) : (
+        <main id="main" className="layout">
         <aside className="sidebar" aria-labelledby="profile-title">
           <div className="section-heading">
             <div className="eyebrow">
@@ -1106,6 +1441,7 @@ function App() {
           )}
         </section>
       </main>
+      )}
       <footer className="data-footer">Dados: National Gallery of Art Open Data (CC0)</footer>
       {historyNotice && (
         <div className="history-notice" role="status">
