@@ -1,8 +1,4 @@
 from fastapi import APIRouter, HTTPException, Query
-import pandas as pd
-from pydantic import BaseModel
-from backend.routes.paintings import Painting
-from recommendations.painting_recommender import get_recommender
 from fastapi import APIRouter, HTTPException
 import pandas as pd
 from pydantic import BaseModel
